@@ -37,6 +37,7 @@
     nodejs
     git
     firefox
+    terminator
   ];
 
   # List services that you want to enable:
