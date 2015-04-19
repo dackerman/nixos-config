@@ -34,6 +34,7 @@
     dmenu2
     terminator
     chromium
+    firefox
     wget
     vim
     emacs
@@ -41,6 +42,8 @@
     emacs24Packages.haskellMode
     haskellPackages.xmonad
     haskellPackages.xmobar
+    nodePackages.grunt-cli
+    nodejs
   ];
 
   services.openssh.enable = true;
