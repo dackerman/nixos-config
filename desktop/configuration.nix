@@ -9,13 +9,15 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
-  
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  boot.loader.grub.device = "/dev/sdb";
+  boot.loader.grub = {
+    enable = true;
+    version = 2;
+    device = "/dev/sda";
+    splashImage = "/etc/nixos/grub-bg.png";
+  };
 
-  networking.hostName = "immutable-oranges"; # Define your hostname.
-  networking.hostId = "1a9f99d1";
+  networking.hostName = "immutable-grape"; # Define your hostname.
+  networking.hostId = "04f2fa20";
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -24,11 +26,34 @@
       enablePepperFlash = true;
       enablePepperPDF = true;
     };
+    firefox = {
+      enableAdobeFlash = true;
+    };
   };
+
   
   time.timeZone = "US/Pacific";
 
   environment.systemPackages = with pkgs; [
+    # Emacs
+    emacs
+    emacs24Packages.dash
+    emacs24Packages.haskellMode
+
+    # Haskell
+    haskellPackages.xmonad
+    haskellPackages.xmobar
+    haskellPackages.elmReactor
+    haskellPackages.elmRepl
+    haskellPackages.elmServer
+    haskellPackages.elmGet
+
+    # Node
+    nodejs
+    nodePackages.grunt-cli
+    nodePackages.bower
+    
+    # Misc
     python27Full
     git
     dmenu2
@@ -37,18 +62,18 @@
     firefox
     wget
     vim
-    emacs
-    emacs24Packages.dash
-    emacs24Packages.haskellMode
-    haskellPackages.xmonad
-    haskellPackages.xmobar
-    nodePackages.grunt-cli
-    nodejs
+    gimp
+    rdesktop
+    wine
+    dropbox
   ];
 
   services.openssh.enable = true;
 
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.gutenprint ];
+  };
 
   hardware.opengl.driSupport32Bit = true;
 
@@ -57,7 +82,7 @@
     layout = "us";
     videoDrivers = [ "nvidia" ];
 
-    xrandrHeads = [ "DVI-I-1" "DVI-D-0" ];
+    xrandrHeads = [ "DVI-D-0" "DVI-I-1" ];
 
     desktopManager = {
       default = "none";
