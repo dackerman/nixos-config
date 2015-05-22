@@ -29,6 +29,9 @@
     firefox = {
       enableAdobeFlash = true;
     };
+    packageOverrides = pkgs: {
+      git = pkgs.git.override { guiSupport = true; };
+    };
   };
 
   
@@ -39,33 +42,56 @@
     emacs
     emacs24Packages.dash
     emacs24Packages.haskellMode
+    emacs24Packages.magit
 
     # Haskell
-    haskellPackages.xmonad
-    haskellPackages.xmobar
-    haskellPackages.elmReactor
-    haskellPackages.elmRepl
-    haskellPackages.elmServer
-    haskellPackages.elmGet
+    (pkgs.haskellngPackages.ghcWithPackages (p: with p; [
+      xmonad
+      xmonad-contrib
+      xmonad-extras
+      xmobar
+      cabal-install
+    ]))
 
     # Node
     nodejs
     nodePackages.grunt-cli
     nodePackages.bower
+    nodePackages.npm2nix
     
     # Misc
-    python27Full
+    xscreensaver
     git
     dmenu2
     terminator
-    chromium
-    firefox
     wget
     vim
     gimp
     rdesktop
-    wine
+    zlib
+    # wineUnstable
+    wine # both of these require gratuitous compilation
     dropbox
+    galculator
+    vpnc
+
+    jre
+
+    # Audio
+    audacity
+    lsof
+    pavucontrol
+    lame
+
+    # Browsers
+    chromium
+    firefox
+    
+    #clang
+    #llvm
+    #ncurses
+    #haskellPackages.ghc
+    #haskellPackages.cabalInstall
   ];
 
   services.openssh.enable = true;
@@ -76,6 +102,10 @@
   };
 
   hardware.opengl.driSupport32Bit = true;
+
+  hardware.pulseaudio = {
+    enable = true;
+  };
 
   services.xserver = {
     enable = true;
@@ -90,8 +120,14 @@
     };
 
     displayManager = {
-      lightdm = {
+      slim = {
         enable = true;
+        #theme = pkgs.fetchurl {
+        #  url    = "https://github.com/jagajaga/nixos-slim-theme/archive/Final.tar.gz";
+        #  sha256 = "4cab5987a7f1ad3cc463780d9f1ee3fbf43603105e6a6e538e4c2147bde3ee6b";
+        #};
+        defaultUser = "david";
+        autoLogin = true;
       };
     };
 
