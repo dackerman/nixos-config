@@ -1,13 +1,11 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+    [
+      /etc/nixos/hardware-configuration.nix
+      /etc/nixos/host-info.nix
+      /etc/nixos/display-config.nix
     ];
   boot.loader.grub = {
     enable = true;
@@ -16,12 +14,20 @@
     splashImage = "/etc/nixos/grub-bg.png";
   };
 
-  networking.hostName = "immutable-grape"; # Define your hostname.
-  networking.hostId = "04f2fa20";
+  nix = {
+    buildCores = 0;
+    binaryCaches = [
+      "https://cache.nixos.org/"
+      "https://hydra.nixos.org/"
+    ];
+    extraOptions = ''
+      build-fallback = false
+    '';
+  };
 
   nixpkgs.config = {
     allowUnfree = true;
-    
+
     chromium = {
       enablePepperFlash = true;
       enablePepperPDF = true;
@@ -34,7 +40,6 @@
     };
   };
 
-  
   time.timeZone = "US/Pacific";
 
   environment.systemPackages = with pkgs; [
@@ -58,7 +63,7 @@
     nodePackages.grunt-cli
     nodePackages.bower
     nodePackages.npm2nix
-    
+
     # Misc
     xscreensaver
     git
@@ -75,6 +80,7 @@
     galculator
     vpnc
 
+    # Clojure
     jre
 
     # Audio
@@ -86,7 +92,7 @@
     # Browsers
     chromium
     firefox
-    
+
     #clang
     #llvm
     #ncurses
@@ -110,9 +116,6 @@
   services.xserver = {
     enable = true;
     layout = "us";
-    videoDrivers = [ "nvidia" ];
-
-    xrandrHeads = [ "DVI-D-0" "DVI-I-1" ];
 
     desktopManager = {
       default = "none";
@@ -122,13 +125,12 @@
     displayManager = {
       slim = {
         enable = true;
-        #theme = pkgs.fetchurl {
-        #  url    = "https://github.com/jagajaga/nixos-slim-theme/archive/Final.tar.gz";
-        #  sha256 = "4cab5987a7f1ad3cc463780d9f1ee3fbf43603105e6a6e538e4c2147bde3ee6b";
-        #};
         defaultUser = "david";
         autoLogin = true;
       };
+      sessionCommands = ''
+      /home/david/bin/setrandomwallpaper.sh
+      '';
     };
 
     windowManager = {
@@ -145,5 +147,6 @@
     extraGroups = [ "wheel" ];
     isNormalUser = true;
     uid = 1000;
+    openssh.authorizedKeys.keyFiles = ["/home/david/.ssh/id_rsa.pub"];
   };
 }
