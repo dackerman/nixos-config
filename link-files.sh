@@ -42,7 +42,6 @@ link_file "home/david/.xmonad/xmonad.hs"
 link_file "home/david/.xmobarrc"
 link_file "home/david/.config/terminator"
 
-link_file "etc/nixos/hardware-configuration.nix" "$platform"
 link_file "etc/nixos/display-config.nix" "$platform"
 link_file "etc/nixos/host-info.nix" "$platform"
 
