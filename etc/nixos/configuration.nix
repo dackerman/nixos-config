@@ -16,13 +16,10 @@
 
   nix = {
     buildCores = 0;
-    binaryCaches = [
+    trustedBinaryCaches = [
       "https://cache.nixos.org/"
-      "https://hydra.nixos.org/"
+      "https://ryantrinkle.com:5443"
     ];
-    extraOptions = ''
-      build-fallback = false
-    '';
   };
 
   nixpkgs.config = {
@@ -147,6 +144,9 @@
     extraGroups = [ "wheel" ];
     isNormalUser = true;
     uid = 1000;
-    openssh.authorizedKeys.keyFiles = ["/home/david/.ssh/id_rsa.pub"];
+    openssh.authorizedKeys.keyFiles = [
+      "/home/david/.ssh/id_rsa.pub"
+      "/home/david/.ssh/laptop_rsa.pub"
+    ];
   };
 }
