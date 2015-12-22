@@ -19,19 +19,13 @@
     trustedBinaryCaches = [
       "https://cache.nixos.org/"
       "https://ryantrinkle.com:5443"
+      "http://hydra.nixos.org"
     ];
   };
 
   nixpkgs.config = {
     allowUnfree = true;
 
-    chromium = {
-      enablePepperFlash = true;
-      enablePepperPDF = true;
-    };
-    firefox = {
-      enableAdobeFlash = true;
-    };
     packageOverrides = pkgs: {
       git = pkgs.git.override { guiSupport = true; };
     };
@@ -39,69 +33,41 @@
 
   time.timeZone = "US/Pacific";
 
+  networking.firewall = {
+    allowedTCPPorts = [ 3000 24800 ];
+  };
+
+  programs.bash = {
+    enableCompletion = true;
+    interactiveShellInit = "source ~/bash-scripts/z.sh";
+  };
+
   environment.systemPackages = with pkgs; [
     # Emacs
     emacs
-    emacs24Packages.dash
-    emacs24Packages.haskellMode
-    emacs24Packages.magit
 
-    # Haskell
-    (pkgs.haskellngPackages.ghcWithPackages (p: with p; [
-      xmonad
-      xmonad-contrib
-      xmonad-extras
-      xmobar
-      cabal-install
-    ]))
-
-    # Node
-    nodejs
-    nodePackages.grunt-cli
-    nodePackages.bower
-    nodePackages.npm2nix
-
-    # Misc
-    xscreensaver
     git
     dmenu2
     terminator
     wget
-    vim
-    gimp
-    rdesktop
-    zlib
-    # wineUnstable
-    wine # both of these require gratuitous compilation
     dropbox
-    galculator
-    vpnc
 
-    # Clojure
-    jre
-
-    # Audio
-    audacity
-    lsof
-    pavucontrol
-    lame
-
-    # Browsers
-    chromium
-    firefox
-
-    #clang
-    #llvm
-    #ncurses
-    #haskellPackages.ghc
-    #haskellPackages.cabalInstall
+    haskellPackages.xmobar
   ];
+
+  fonts.fonts = [ pkgs.terminus_font ];
 
   services.openssh.enable = true;
 
   services.printing = {
     enable = true;
     drivers = [ pkgs.gutenprint ];
+  };
+
+  services.synergy.server = {
+    enable = true;
+    configFile = "/home/david/.synergy.conf";
+    autoStart = true;
   };
 
   hardware.opengl.driSupport32Bit = true;
@@ -134,10 +100,14 @@
       xmonad = {
        enable = true;
        enableContribAndExtras = true;
-       extraPackages = self: [ self.xmonadContrib ];
       };
       default = "xmonad";
     };
+  };
+
+  virtualisation.docker = {
+    enable = true;
+    storageDriver = "devicemapper";
   };
 
   users.extraUsers.david = {
