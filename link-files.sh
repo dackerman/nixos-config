@@ -39,9 +39,9 @@ function link_file() {
 link_file "etc/nixos/configuration.nix"
 link_file "etc/nixos/grub-bg.png"
 link_file "home/david/.xmonad/xmonad.hs"
-link_file "home/david/.xmobarrc"
 link_file "home/david/.config/terminator"
 
+link_file "home/david/.xmobarrc" "$platform"
 link_file "etc/nixos/display-config.nix" "$platform"
 link_file "etc/nixos/host-info.nix" "$platform"
 

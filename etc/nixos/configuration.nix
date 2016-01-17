@@ -64,12 +64,6 @@
     drivers = [ pkgs.gutenprint ];
   };
 
-  services.synergy.server = {
-    enable = true;
-    configFile = "/home/david/.synergy.conf";
-    autoStart = true;
-  };
-
   hardware.opengl.driSupport32Bit = true;
 
   hardware.pulseaudio = {
