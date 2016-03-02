@@ -55,13 +55,31 @@
     haskellPackages.xmobar
   ];
 
-  fonts.fonts = [ pkgs.terminus_font ];
+  fonts.fonts = with pkgs; [
+    terminus_font
+    corefonts
+    dejavu_fonts
+    ubuntu_font_family
+    unifont
+    inconsolata
+    proggyfonts
+    liberation_ttf
+  ];
 
   services.openssh.enable = true;
 
   services.printing = {
     enable = true;
     drivers = [ pkgs.gutenprint ];
+  };
+
+  jobs.dropbox = {
+    description = "Dropbox daemon";
+    startOn = "started network-interfaces";
+    exec = ''/run/current-system/sw/bin/dropbox'';
+    serviceConfig = {
+      User = "david";
+    };
   };
 
   hardware.opengl.driSupport32Bit = true;

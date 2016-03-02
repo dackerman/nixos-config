@@ -46,6 +46,6 @@ main = do
                 }
     , normalBorderColor = "#000000"
     , focusedBorderColor = "#cccccc"
-    , modMask = altKey
+    , modMask = windowsKey
     , terminal = "terminator"
     }
