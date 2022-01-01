@@ -94,17 +94,17 @@
     };
 
     displayManager = {
-      autoLogin.user = "david";
-      autoLogin.enable = true;
+      # autoLogin.user = "david";
+      # autoLogin.enable = true;
       defaultSession = "none+xmonad";
       
-      gdm = {
+      lightdm = {
         enable = true;
       };
       
-      sessionCommands = ''
-      /home/david/bin/setrandomwallpaper.sh
-      '';
+      # sessionCommands = ''
+      # /home/david/bin/setrandomwallpaper.sh
+      # '';
     };
 
     windowManager = {
