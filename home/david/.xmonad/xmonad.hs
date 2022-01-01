@@ -1,11 +1,13 @@
 import XMonad (xmonad, stringProperty, className, (=?), (<&&>), (-->), (<+>), doFloat, composeAll,
-               mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, manageHook, layoutHook, logHook, normalBorderColor,
-               focusedBorderColor, modMask, terminal)
+               mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, startupHook, manageHook, layoutHook,
+               logHook, normalBorderColor,focusedBorderColor, modMask, terminal )
+import XMonad.Hooks.SetWMName (setWMName)              
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobar, xmobarPP, xmobarColor, shorten, ppOutput, ppTitle)
 import XMonad.Hooks.ManageDocks (manageDocks, avoidStruts)
 import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.EZConfig (additionalKeys)
 import System.IO (hPutStrLn)
+import Data.Default (def)
 
 windowRole = stringProperty "WM_WINDOW_ROLE"
 
@@ -37,13 +39,10 @@ windowsKey = mod4Mask
 
 main = xmonad =<< xmobar myConfig
 
-myConfig = defaultConfig
+myConfig = def
     { manageHook = manageDocks <+> floatingWindowsHook
-    , layoutHook = avoidStruts $ layoutHook defaultConfig
-    , logHook = dynamicLogWithPP xmobarPP
-                { ppOutput = hPutStrLn xmproc
-                , ppTitle = xmobarColor "green" "" . shorten 50
-                }
+    , layoutHook = avoidStruts $ layoutHook def
+    , startupHook = setWMName "LG3D"
     , normalBorderColor = "#000000"
     , focusedBorderColor = "#cccccc"
     , modMask = windowsKey

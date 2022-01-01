@@ -8,21 +8,21 @@
       /etc/nixos/display-config.nix
     ];
 
-  nix = {
-    buildCores = 0;
-    trustedBinaryCaches = [
-      "https://cache.nixos.org/"
-      # "https://ryantrinkle.com:5443"
-      "http://hydra.nixos.org"
-    ];
-  };
+  # nix = {
+  #   buildCores = 0;
+  #   trustedBinaryCaches = [
+  #     "https://cache.nixos.org/"
+  #     # "https://ryantrinkle.com:5443"
+  #     "http://hydra.nixos.org"
+  #   ];
+  # };
 
   nixpkgs.config = {
     allowUnfree = true;
 
-    packageOverrides = pkgs: {
-      git = pkgs.git.override { guiSupport = true; };
-    };
+    # packageOverrides = pkgs: {
+    #   git = pkgs.git.override { guiSupport = true; };
+    # };
   };
 
   time.timeZone = "US/Pacific";
@@ -48,7 +48,7 @@
     firefox
 
     # System tools
-    dmenu2                    # open applications
+    dmenu                     # open applications
     terminator                # terminal emulator
     xmobar                    # top bar for xmonad
     gnome.nautilus            # file finder
@@ -90,16 +90,18 @@
     desktopManager = {
       gnome.enable = false; # Gnome Desktop
       
-      default = "none";
       xterm.enable = false;
     };
 
     displayManager = {
-      slim = {
+      autoLogin.user = "david";
+      autoLogin.enable = true;
+      defaultSession = "none+xmonad";
+      
+      gdm = {
         enable = true;
-        defaultUser = "david";
-        autoLogin = true;
       };
+      
       sessionCommands = ''
       /home/david/bin/setrandomwallpaper.sh
       '';
@@ -111,7 +113,6 @@
        enableContribAndExtras = true;
        config = pkgs.lib.readFile /home/david/.xmonad/xmonad.hs;
       };
-      default = "xmonad";
     };
   };
 
