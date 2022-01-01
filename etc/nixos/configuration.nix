@@ -7,18 +7,12 @@
       /etc/nixos/host-info.nix
       /etc/nixos/display-config.nix
     ];
-  boot.loader.grub = {
-    enable = true;
-    version = 2;
-    device = "/dev/sda";
-    splashImage = "/etc/nixos/grub-bg.png";
-  };
 
   nix = {
     buildCores = 0;
     trustedBinaryCaches = [
       "https://cache.nixos.org/"
-      "https://ryantrinkle.com:5443"
+      # "https://ryantrinkle.com:5443"
       "http://hydra.nixos.org"
     ];
   };
@@ -34,25 +28,35 @@
   time.timeZone = "US/Pacific";
 
   networking.firewall = {
-    allowedTCPPorts = [ 3000 24800 ];
+    allowedTCPPorts = [ ];
   };
 
   programs.bash = {
     enableCompletion = true;
-    interactiveShellInit = "source ~/bash-scripts/z.sh";
+    # interactiveShellInit = "source ~/bash-scripts/z.sh";
   };
 
   environment.systemPackages = with pkgs; [
-    # Emacs
+    # Programming and editing
     emacs
-
     git
-    dmenu2
-    terminator
     wget
-    dropbox
+    tree
+    
+    # Browsers
+    google-chrome
+    firefox
 
-    haskellPackages.xmobar
+    # System tools
+    dmenu2                    # open applications
+    terminator                # terminal emulator
+    xmobar                    # top bar for xmonad
+    gnome.nautilus            # file finder
+    pv                        # terminal-based progress viewer
+    feh                       # simple X-server image viewer
+
+    # Applications
+    signal-desktop            # chat application
   ];
 
   fonts.fonts = with pkgs; [
@@ -73,16 +77,7 @@
     drivers = [ pkgs.gutenprint ];
   };
 
-  jobs.dropbox = {
-    description = "Dropbox daemon";
-    startOn = "started network-interfaces";
-    exec = ''/run/current-system/sw/bin/dropbox'';
-    serviceConfig = {
-      User = "david";
-    };
-  };
-
-  hardware.opengl.driSupport32Bit = true;
+  # hardware.opengl.driSupport32Bit = true;
 
   hardware.pulseaudio = {
     enable = true;
@@ -93,6 +88,8 @@
     layout = "us";
 
     desktopManager = {
+      gnome.enable = false; # Gnome Desktop
+      
       default = "none";
       xterm.enable = false;
     };
@@ -112,23 +109,31 @@
       xmonad = {
        enable = true;
        enableContribAndExtras = true;
+       config = pkgs.lib.readFile /home/david/.xmonad/xmonad.hs;
       };
       default = "xmonad";
     };
   };
 
-  virtualisation.docker = {
-    enable = true;
-    storageDriver = "devicemapper";
-  };
+  # virtualisation.docker = {
+  #   enable = true;
+  #   storageDriver = "devicemapper";
+  # };
 
-  users.extraUsers.david = {
-    extraGroups = [ "wheel" ];
+  users.users.david = {
     isNormalUser = true;
-    uid = 1000;
-    openssh.authorizedKeys.keyFiles = [
-      "/home/david/.ssh/id_rsa.pub"
-      "/home/david/.ssh/laptop_rsa.pub"
-    ];
+    extraGroups = [ "wheel" ];
+    # openssh.authorizedKeys.keyFiles = [
+    #   "/home/david/.ssh/id_rsa.pub"
+    #   "/home/david/.ssh/laptop_rsa.pub"
+    # ];
   };
+  
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "21.11"; # Did you read the comment?
 }

@@ -1,7 +1,7 @@
 import XMonad (xmonad, stringProperty, className, (=?), (<&&>), (-->), (<+>), doFloat, composeAll,
                mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, manageHook, layoutHook, logHook, normalBorderColor,
                focusedBorderColor, modMask, terminal)
-import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobarPP, xmobarColor, shorten, ppOutput, ppTitle)
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobar, xmobarPP, xmobarColor, shorten, ppOutput, ppTitle)
 import XMonad.Hooks.ManageDocks (manageDocks, avoidStruts)
 import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.EZConfig (additionalKeys)
@@ -24,7 +24,7 @@ windowRole = stringProperty "WM_WINDOW_ROLE"
 floatingWindows = [ className =? "MPlayer"
                   , className =? "Gimp"
                   , className =? "Galculator"
-                  , className =? "Chromium" <&&> windowRole =? "pop-up"
+                  , windowRole =? "pop-up"
                   ]
 
 makeFloating w = w --> doFloat
@@ -35,9 +35,9 @@ altKey = mod1Mask
 rightAlt = mod3Mask
 windowsKey = mod4Mask
 
-main = do
-  xmproc <- spawnPipe "/run/current-system/sw/bin/xmobar /home/david/.xmobarrc"
-  xmonad $ defaultConfig
+main = xmonad =<< xmobar myConfig
+
+myConfig = defaultConfig
     { manageHook = manageDocks <+> floatingWindowsHook
     , layoutHook = avoidStruts $ layoutHook defaultConfig
     , logHook = dynamicLogWithPP xmobarPP
