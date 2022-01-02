@@ -31,6 +31,8 @@
     allowedTCPPorts = [ ];
   };
 
+  networking.useDHCP = false;
+
   programs.bash = {
     enableCompletion = true;
     # interactiveShellInit = "source ~/bash-scripts/z.sh";

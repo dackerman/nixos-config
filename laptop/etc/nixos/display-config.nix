@@ -1,11 +1,9 @@
 { config, pkgs, ... }:
 
 {
-  services.xserver.synaptics = {
+  services.xserver.libinput = {
     enable = true;
-    vertTwoFingerScroll = true;
-    tapButtons = false;
+    touchpad.disableWhileTyping = true;
+    touchpad.tapping = false;
   };
-  networking.wireless.enable = true;
-
 }
