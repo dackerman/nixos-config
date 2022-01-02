@@ -13,12 +13,11 @@
   networking = {
     hostName = "decomplected";
     hostId = "1a9f99d0";
-    wireless.enable = true;
     usePredictableInterfaceNames = false;
     networkmanager.enable = true;
     extraHosts = ''
       192.168.1.1 router.asus.com
     '';
+    interfaces.wlan0.useDHCP = true;
   };
-  interfaces.wlan0.useDHCP = true;
 }

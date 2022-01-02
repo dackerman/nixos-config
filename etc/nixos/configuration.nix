@@ -90,7 +90,7 @@
     layout = "us";
 
     desktopManager = {
-      gnome.enable = false; # Gnome Desktop
+      gnome.enable = true; # Gnome Desktop
       
       xterm.enable = false;
     };
