@@ -45,6 +45,6 @@ myConfig = def
     , startupHook = setWMName "LG3D"
     , normalBorderColor = "#000000"
     , focusedBorderColor = "#cccccc"
-    , modMask = windowsKey
+    , modMask = altKey
     , terminal = "terminator"
     }

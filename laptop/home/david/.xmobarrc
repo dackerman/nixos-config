@@ -1,17 +1,54 @@
-Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
+Config { font = "xft:Bitstream Vera Sans Mono:size=10:bold:antialias=true"
+       , additionalFonts = []
+       , borderColor = "black"
+       , border = TopB
        , bgColor = "black"
        , fgColor = "grey"
+       , alpha = 255
        , position = Top
-       , commands = [ Run Weather "EGPF" ["-t"," <tempF>F","-L","64","-H","77","--normal","green","--high","red","--low","lightblue"] 36000
-                    , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
-                    , Run Memory ["-t","Mem: <usedratio>%"] 10
-                    , Run Date "%a %b %_d %l:%M" "date" 10
-                    , Run Battery        [ "--template" , "Batt: <acstatus>"
+       , textOffset = -1
+       , iconOffset = -1
+       , lowerOnStart = True
+       , pickBroadest = False
+       , persistent = False
+       , hideOnStart = False
+       , iconRoot = "."
+       , allDesktops = True
+       , overrideRedirect = True
+       , commands = [ Run StdinReader
+                    , Run Network "wlan0" ["-L","0","-H","8000000",
+                                           "--normal","green","--high","red"] 10
+                    , Run Cpu ["-L","50","-H","80",
+                               "--low", "green"
+                               ,"--normal","yellow"
+                               ,"--high","red"
+                               ] 10
+                    , Run Volume "default" "Master" [
+                        "-t", "<volume>% <status>"
+                      ] 10
+                    , Run Memory [
+                        "-t","<free> MB free"
+                        , "-L", "20"
+                        , "-H", "40"
+                        , "--low", "red"
+                        , "--normal", "yellow"
+                        , "--high", "green"
+                        ] 10
+                    , Run MultiCoreTemp [
+                        "-t", "<max>°C"
+                        , "-L", "30"
+                        , "-H", "90"
+                        , "--low", "green"
+                        , "--normal", "orange"
+                        , "--high", "red"
+                        ] 50
+                    , Run Date "%a %b %_d %Y %I:%M:%S %p" "date" 10
+                    , Run Battery  [ "--template" , "<acstatus>"
                              , "--Low"      , "10"        -- units: %
                              , "--High"     , "80"        -- units: %
-                             , "--low"      , "darkred"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkgreen"
+                             , "--low"      , "red"
+                             , "--normal"   , "orange"
+                             , "--high"     , "green"
 
                              , "--" -- battery specific options
                                        -- discharging status
@@ -21,9 +58,8 @@ Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
                                        -- charged status
                                        , "-i"	, "<fc=#006000>Charged</fc>"
                              ] 50
-                    , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% | %memory% | %battery%   <fc=#ee9a00>%date%</fc> | %EGPF%"
+       , template = "%StdinReader% }{ %cpu% | %memory% | %multicoretemp% | %wlan0% | %default:Master% | %battery% | <fc=#ee9a00>%date%</fc>"
        }
