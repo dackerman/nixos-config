@@ -90,14 +90,7 @@
     };
 
     displayManager = {
-      # autoLogin.user = "david";
-      # autoLogin.enable = true;
       defaultSession = "none+xmonad";
-
-      # session = [
-      #   { manage = "desktop"; name = "gnome"; }
-      #   { manage = "window"; name = "xmonad"; }
-      # ];
       
       lightdm = {
         enable = true;
