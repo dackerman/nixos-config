@@ -60,14 +60,8 @@
   ];
 
   fonts.fonts = with pkgs; [
-    terminus_font
-    corefonts
-    dejavu_fonts
-    ubuntu_font_family
-    unifont
-    inconsolata
-    proggyfonts
-    liberation_ttf
+    monoid
+    hack-font
   ];
 
   services.openssh.enable = true;
@@ -88,7 +82,7 @@
     layout = "us";
 
     desktopManager = {
-      gnome.enable = false; # Gnome Desktop
+      gnome.enable = true; # Gnome Desktop
       
       xterm.enable = false;
     };
@@ -97,14 +91,19 @@
       # autoLogin.user = "david";
       # autoLogin.enable = true;
       defaultSession = "none+xmonad";
+
+      # session = [
+      #   { manage = "desktop"; name = "gnome"; }
+      #   { manage = "window"; name = "xmonad"; }
+      # ];
       
       lightdm = {
         enable = true;
       };
       
-      # sessionCommands = ''
-      # /home/david/bin/setrandomwallpaper.sh
-      # '';
+      sessionCommands = ''
+      /home/david/bin/setrandomwallpaper.sh
+      '';
     };
 
     windowManager = {
