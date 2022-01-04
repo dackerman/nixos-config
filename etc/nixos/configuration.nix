@@ -105,7 +105,7 @@
       xmonad = {
        enable = true;
        enableContribAndExtras = true;
-       config = pkgs.lib.readFile /home/david/.xmonad/xmonad.hs;
+       config = (pkgs.lib.readFile /home/david/.xmonad/xmonad-shared.hs) + (pkgs.lib.readFile /home/david/.xmonad/xmonad-main.hs);
       };
     };
   };

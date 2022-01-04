@@ -32,16 +32,18 @@ function link_file() {
         echo "Moving existing file to $newfilepath"
         sudo mv "/$filepath" "$newfilepath"
     fi
+    mkdir -p $(dirname "/$filepath")
     echo "linking /$filepath to $prefix/$filepath"
     sudo ln -s "$prefix/$filepath" "/$filepath"
 }
 
 link_file "etc/nixos/configuration.nix"
 link_file "etc/nixos/grub-bg.png"
-link_file "home/david/.xmonad/xmonad.hs"
+link_file "home/david/.xmonad/xmonad-shared.hs"
 link_file "home/david/.config/terminator"
 
 link_file "home/david/.xmobarrc" "$platform"
+link_file "home/david/.xmonad/xmonad-main.hs" "$platform"
 link_file "etc/nixos/display-config.nix" "$platform"
 link_file "etc/nixos/host-info.nix" "$platform"
 

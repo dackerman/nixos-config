@@ -37,9 +37,7 @@ altKey = mod1Mask
 rightAlt = mod3Mask
 windowsKey = mod4Mask
 
-main = xmonad =<< xmobar myConfig
-
-myConfig = def
+sharedConfig = def
     { manageHook = manageDocks <+> floatingWindowsHook
     , layoutHook = avoidStruts $ layoutHook def
     , startupHook = setWMName "LG3D"
