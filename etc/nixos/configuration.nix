@@ -44,10 +44,14 @@
     git
     wget
     tree
+    nodejs
+    yarn
+    clojure
     
-    # Browsers
+    # Applications
     google-chrome
     firefox
+    gimp
 
     # System tools
     dmenu                     # open applications
@@ -56,6 +60,11 @@
     gnome.nautilus            # file finder
     pv                        # terminal-based progress viewer
     feh                       # simple X-server image viewer
+    twmn                      # X-server notifications
+    stalonetray               # system tray for xmobar
+    pavucontrol               # system tray icon for pulseaudio
+    scrot                     # take screenshots
+    xclip                     # send to clipboard from terminal
 
     # Applications
     signal-desktop            # chat application
@@ -97,7 +106,9 @@
       };
       
       sessionCommands = ''
-      /home/david/bin/setrandomwallpaper.sh
+        stalonetray &
+        twmnd &
+        /home/david/bin/setrandomwallpaper.sh
       '';
     };
 
@@ -117,7 +128,7 @@
 
   users.users.david = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "audio" ];
     # openssh.authorizedKeys.keyFiles = [
     #   "/home/david/.ssh/id_rsa.pub"
     #   "/home/david/.ssh/laptop_rsa.pub"

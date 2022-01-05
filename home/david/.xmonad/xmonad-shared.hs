@@ -1,13 +1,15 @@
 import XMonad (xmonad, stringProperty, className, (=?), (<&&>), (-->), (<+>), doFloat, composeAll,
-               mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, startupHook, manageHook, layoutHook,
-               logHook, normalBorderColor,focusedBorderColor, modMask, terminal )
+               keys, xK_b, mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, startupHook, manageHook,
+               logHook, normalBorderColor,focusedBorderColor, modMask, terminal, layoutHook)
+import XMonad.Operations (sendMessage)
 import XMonad.Hooks.SetWMName (setWMName)              
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobar, xmobarPP, xmobarColor, shorten, ppOutput, ppTitle)
-import XMonad.Hooks.ManageDocks (manageDocks, avoidStruts)
+import XMonad.Hooks.ManageDocks (manageDocks, avoidStruts, docks, ToggleStruts(ToggleStruts))
 import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.EZConfig (additionalKeys)
 import System.IO (hPutStrLn)
 import Data.Default (def)
+import Data.Map (fromList)
 
 windowRole = stringProperty "WM_WINDOW_ROLE"
 
@@ -27,6 +29,8 @@ floatingWindows = [ className =? "MPlayer"
                   , className =? "Gimp"
                   , className =? "Galculator"
                   , windowRole =? "pop-up"
+                  , windowRole =? "gnome-calculator"
+                  , className =? "Signal"
                   ]
 
 makeFloating w = w --> doFloat
@@ -37,12 +41,20 @@ altKey = mod1Mask
 rightAlt = mod3Mask
 windowsKey = mod4Mask
 
-sharedConfig = def
-    { manageHook = manageDocks <+> floatingWindowsHook
+sharedKeyMap =
+  [ ((customModMask, xK_b), sendMessage ToggleStruts)
+  ]
+
+sharedConfig xmobarProcess = docks $ def
+    { manageHook = floatingWindowsHook
     , layoutHook = avoidStruts $ layoutHook def
+    , logHook = dynamicLogWithPP xmobarPP
+                    { ppOutput = hPutStrLn xmobarProcess
+                    , ppTitle = xmobarColor "green" "" . shorten 200
+                    }
     , startupHook = setWMName "LG3D"
     , normalBorderColor = "#000000"
     , focusedBorderColor = "#cccccc"
-    , modMask = altKey
+    , modMask = customModMask
     , terminal = "terminator"
-    }
+    } `additionalKeys` customKeyMap

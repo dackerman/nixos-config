@@ -1,5 +1,8 @@
-main = xmonad =<< xmobar myConfig
+main = do
+  xmproc <- spawnPipe "xmobar"
+  xmonad $ (sharedConfig xmproc)
 
-myConfig = sharedConfig
-    { modMask = windowsKey
-    }
+customModMask = windowsKey
+
+customKeyMap = sharedKeyMap
+  
