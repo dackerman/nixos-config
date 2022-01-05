@@ -48,7 +48,7 @@
     feh                       # simple X-server image viewer
     twmn                      # X-server notifications
     stalonetray               # system tray for xmobar
-    pavucontrol               # system tray icon for pulseaudio
+    pasystray                 # system tray icon for pulseaudio
     scrot                     # take screenshots
     xclip                     # send to clipboard from terminal
 
@@ -106,6 +106,7 @@
       
       sessionCommands = ''
         stalonetray &
+        pasystray &
         twmnd &
         /home/david/bin/setrandomwallpaper.sh
       '';
