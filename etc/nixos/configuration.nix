@@ -38,21 +38,7 @@
     # interactiveShellInit = "source ~/bash-scripts/z.sh";
   };
 
-  environment.systemPackages = with pkgs; [
-    # Programming and editing
-    emacs
-    git
-    wget
-    tree
-    nodejs
-    yarn
-    clojure
-    
-    # Applications
-    google-chrome
-    firefox
-    gimp
-
+  environment.systemPackages = with pkgs; [    
     # System tools
     dmenu                     # open applications
     terminator                # terminal emulator
@@ -66,8 +52,21 @@
     scrot                     # take screenshots
     xclip                     # send to clipboard from terminal
 
+    # Programming and editing
+    emacs
+    git
+    wget
+    tree
+    nodejs
+    yarn
+    clojure
+
     # Applications
     signal-desktop            # chat application
+    google-chrome
+    firefox
+    gimp
+
   ];
 
   fonts.fonts = with pkgs; [
