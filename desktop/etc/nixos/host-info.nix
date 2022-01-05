@@ -14,4 +14,12 @@
   boot.loader.grub.enable = false;
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.systemd-boot.enable = true;
+
+  boot.supportedFilesystems = ["ntfs"];
+
+  fileSystems."/mnt/cross-os-data" =
+    { device = "/dev/disk/by-label/CrossOSData";
+      fsType = "ntfs";
+      options = ["rw" "uid=1000"];
+    };
 }
