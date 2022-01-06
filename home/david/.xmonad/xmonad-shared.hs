@@ -12,6 +12,7 @@ import Data.Default (def)
 import Data.Map (fromList)
 
 windowRole = stringProperty "WM_WINDOW_ROLE"
+gtkAppId = stringProperty "_GTK_APPLICATION_ID"
 
 ------------------------------------------------------------------------
 -- Window rules
@@ -31,6 +32,7 @@ floatingWindows = [ className =? "MPlayer"
                   , windowRole =? "pop-up"
                   , windowRole =? "gnome-calculator"
                   , className =? "Signal"
+                  , gtkAppId =? "org.gnome.Nautilus"
                   ]
 
 makeFloating w = w --> doFloat
