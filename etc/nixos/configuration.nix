@@ -51,6 +51,7 @@
     pasystray                 # system tray icon for pulseaudio
     scrot                     # take screenshots
     xclip                     # send to clipboard from terminal
+    veracrypt                 # encrypted drives and files
 
     # Programming and editing
     emacs
@@ -66,6 +67,7 @@
     google-chrome
     firefox
     gimp
+    vlc
 
   ];
 
