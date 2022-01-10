@@ -1,8 +1,8 @@
-import XMonad (xmonad, stringProperty, className, (=?), (<&&>), (-->), (<+>), doFloat, composeAll,
-               keys, xK_b, mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, startupHook, manageHook,
-               logHook, normalBorderColor,focusedBorderColor, modMask, terminal, layoutHook)
+import XMonad (xmonad, stringProperty, className, (=?), (<&&>), (-->), (<+>), (.|.), doFloat, composeAll,
+               keys, xK_b, xK_e, xK_c, mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, startupHook, manageHook,
+               controlMask, logHook, normalBorderColor,focusedBorderColor, modMask, terminal, layoutHook, spawn)
 import XMonad.Operations (sendMessage)
-import XMonad.Hooks.SetWMName (setWMName)              
+import XMonad.Hooks.SetWMName (setWMName)
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobar, xmobarPP, xmobarColor, shorten, ppOutput, ppTitle)
 import XMonad.Hooks.ManageDocks (manageDocks, avoidStruts, docks, ToggleStruts(ToggleStruts))
 import XMonad.Util.Run (spawnPipe)
@@ -40,11 +40,14 @@ makeFloating w = w --> doFloat
 floatingWindowsHook = composeAll $ (map makeFloating floatingWindows)
 
 altKey = mod1Mask
+ctrlKey = controlMask
 rightAlt = mod3Mask
 windowsKey = mod4Mask
 
 sharedKeyMap =
   [ ((customModMask, xK_b), sendMessage ToggleStruts)
+  , ((ctrlKey .|. altKey, xK_e), spawn "emacs")
+  , ((ctrlKey .|. altKey, xK_c), spawn "google-chrome-stable")
   ]
 
 sharedConfig xmobarProcess = docks $ def
