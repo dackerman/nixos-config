@@ -38,7 +38,7 @@
     # interactiveShellInit = "source ~/bash-scripts/z.sh";
   };
 
-  environment.systemPackages = with pkgs; [    
+  environment.systemPackages = with pkgs; [
     # System tools
     dmenu                     # open applications
     terminator                # terminal emulator
@@ -95,18 +95,19 @@
 
     desktopManager = {
       gnome.enable = true; # Gnome Desktop
-      
+
       xterm.enable = false;
     };
 
     displayManager = {
       defaultSession = "none+xmonad";
-      
+
       lightdm = {
         enable = true;
       };
-      
+
       sessionCommands = ''
+        source ~/.profile
         stalonetray &
         pasystray &
         twmnd &
@@ -136,7 +137,7 @@
     #   "/home/david/.ssh/laptop_rsa.pub"
     # ];
   };
-  
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
