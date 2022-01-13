@@ -5,6 +5,10 @@ import XMonad.Operations (sendMessage)
 import XMonad.Hooks.SetWMName (setWMName)
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobar, xmobarPP, xmobarColor, shorten, ppOutput, ppTitle)
 import XMonad.Hooks.ManageDocks (manageDocks, avoidStruts, docks, ToggleStruts(ToggleStruts))
+import XMonad.Layout.Spiral (spiral)
+import XMonad.Layout.ThreeColumns (ThreeCol(ThreeCol, ThreeColMid))
+import XMonad.Layout.Grid (Grid(Grid))
+import XMonad.Layout ((|||))
 import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.EZConfig (additionalKeys)
 import System.IO (hPutStrLn)
@@ -52,7 +56,7 @@ sharedKeyMap =
 
 sharedConfig xmobarProcess = docks $ def
     { manageHook = floatingWindowsHook
-    , layoutHook = avoidStruts $ layoutHook def
+    , layoutHook = avoidStruts (layoutHook def ||| spiral (1/2) ||| ThreeColMid 1 (3/100) (1/2) ||| Grid)
     , logHook = dynamicLogWithPP xmobarPP
                     { ppOutput = hPutStrLn xmobarProcess
                     , ppTitle = xmobarColor "green" "" . shorten 200
