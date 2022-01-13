@@ -1,3 +1,15 @@
+module SharedConfig
+  ( floatingWindows
+  , makeFloating
+  , floatingWindowsHook
+  , altKey
+  , ctrlKey
+  , rightAlt
+  , windowsKey
+  , sharedKeyMap
+  , sharedConfig
+  ) where
+
 import XMonad (xmonad, stringProperty, className, (=?), (<&&>), (-->), (<+>), (.|.), doFloat, composeAll,
                keys, xK_b, xK_e, xK_c, mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, startupHook, manageHook,
                controlMask, logHook, normalBorderColor,focusedBorderColor, modMask, terminal, layoutHook, spawn)
@@ -48,15 +60,17 @@ ctrlKey = controlMask
 rightAlt = mod3Mask
 windowsKey = mod4Mask
 
-sharedKeyMap =
+sharedKeyMap customModMask =
   [ ((customModMask, xK_b), sendMessage ToggleStruts)
   , ((ctrlKey .|. altKey, xK_e), spawn "emacs")
   , ((ctrlKey .|. altKey, xK_c), spawn "google-chrome-stable")
   ]
 
+sharedLayouts = layoutHook def ||| ThreeColMid 1 (3/100) (1/2) ||| Grid ||| spiral (1/2)
+
 sharedConfig xmobarProcess = docks $ def
     { manageHook = floatingWindowsHook
-    , layoutHook = avoidStruts (layoutHook def ||| spiral (1/2) ||| ThreeColMid 1 (3/100) (1/2) ||| Grid)
+    , layoutHook = avoidStruts sharedLayouts
     , logHook = dynamicLogWithPP xmobarPP
                     { ppOutput = hPutStrLn xmobarProcess
                     , ppTitle = xmobarColor "green" "" . shorten 200
@@ -64,6 +78,5 @@ sharedConfig xmobarProcess = docks $ def
     , startupHook = setWMName "LG3D"
     , normalBorderColor = "#000000"
     , focusedBorderColor = "#cccccc"
-    , modMask = customModMask
     , terminal = "terminator"
-    } `additionalKeys` customKeyMap
+    }
