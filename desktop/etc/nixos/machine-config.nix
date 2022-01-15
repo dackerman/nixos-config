@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  services.xserver = {
+    videoDrivers = [ "nvidia" ];
+  };
+
   networking = {
     hostName = "homoiconicity";
     hostId = "04f2fa20";

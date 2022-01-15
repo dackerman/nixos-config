@@ -48,7 +48,6 @@ link_file "home/david/.config/twmn/twmn.conf" "$platform"
 link_file "home/david/.stalonetrayrc" "$platform"
 link_file "home/david/.xmonad/xmonad.hs" "$platform"
 link_file "home/david/.profile" "$platform"
-link_file "etc/nixos/display-config.nix" "$platform"
-link_file "etc/nixos/host-info.nix" "$platform"
+link_file "etc/nixos/machine-config.nix" "$platform"
 
 echo "done."

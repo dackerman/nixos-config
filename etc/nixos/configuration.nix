@@ -4,8 +4,7 @@
   imports =
     [
       /etc/nixos/hardware-configuration.nix
-      /etc/nixos/host-info.nix
-      /etc/nixos/display-config.nix
+      /etc/nixos/machine-config.nix
     ];
 
   # nix = {
