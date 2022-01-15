@@ -29,4 +29,8 @@
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
+  # try to fix bluetooth issue
+  # see https://nixos.wiki/wiki/Bluetooth
+  hardware.enableAllFirmware = true;
+
 }
