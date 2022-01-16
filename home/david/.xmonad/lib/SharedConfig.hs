@@ -116,28 +116,28 @@ watchForSignalNotifications = do
         else return ()
     )
 
-  return (watchForSignalEventHook ref)
+  return $ updatedRefEventHook ref (do maybeSignal <- findSignal
+                                       whenJust maybeSignal selectWindow)
 
-findSignal :: [Window] -> X (Maybe Window)
-findSignal windowIds = do
+findSignalWindow :: [Window] -> X (Maybe Window)
+findSignalWindow windowIds = do
   signalWindows <- filterM (\w -> runQuery (className =? "Signal") w) windowIds
   return (listToMaybe signalWindows)
 
-watchForSignalEventHook :: IORef Bool -> Event -> X All
-watchForSignalEventHook ref event = do
-  shouldMoveSignal <- io $ readIORef ref
-  if shouldMoveSignal
-    then (do
-             maybeSignalWindow <- gets (allWindows . windowset) >>= findSignal
-             whenJust maybeSignalWindow (
-               \signalWindow -> do
-                 windows (\stackSet -> shiftWinWithoutFocus (currentTag stackSet) signalWindow stackSet)
-               )
-             io (writeIORef ref False)
-         )
-    else return ()
+findSignal :: X (Maybe Window)
+findSignal = gets (allWindows . windowset) >>= findSignalWindow
 
+updatedRefEventHook :: IORef Bool -> X a -> (Event -> X All)
+updatedRefEventHook ref action event = do
+  shouldTrigger <- io $ readIORef ref
+  if shouldTrigger
+    then action >> io (writeIORef ref False)
+    else return ()
   return (All True)
+
+selectWindow :: Window -> X ()
+selectWindow signalWindow = windows (moveToCurrentWorkspaceWithoutFocusing signalWindow)
+  where moveToCurrentWorkspaceWithoutFocusing window stackSet = shiftWinWithoutFocus (currentTag stackSet) window stackSet
 
 -- See shiftWin function from XMonad.StackSet. This is just a version that doesn't also focus
 -- the window after moving it. Instead, it moves the given window to the current screen as-is.
