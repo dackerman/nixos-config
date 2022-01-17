@@ -9,11 +9,13 @@ module SharedConfig
   , sharedKeyMap
   , sharedConfig
   , watchForSignalNotifications
+  , startupProgramsHook
   ) where
 import XMonad (xmonad, stringProperty, className, (=?), (<&&>), (-->), (<+>), (.|.), doFloat, composeAll, workspaces,
                keys, xK_b, xK_e, xK_c, mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, startupHook, manageHook,
                controlMask, logHook, normalBorderColor,focusedBorderColor, modMask, terminal, layoutHook, spawn, io,
-               Query(), WindowSet, title, appName, X, handleEventHook, reveal, Window, whenJust, runQuery, windowset)
+               Query(), WindowSet, title, appName, X, handleEventHook, reveal, Window, whenJust, runQuery, windowset,
+               uninstallSignalHandlers)
 import XMonad.Operations (sendMessage, windows)
 import XMonad.StackSet (allWindows, shiftWin, currentTag, StackSet, Stack(Stack), member, modify, findTag, tagMember,
                         delete', view)
@@ -35,16 +37,23 @@ import System.Process (createProcess, proc, std_out, StdStream(CreatePipe))
 import Control.Concurrent (forkIO)
 import Data.IORef (newIORef, readIORef, writeIORef, IORef)
 import GHC.IO.Handle (hGetLine, hWaitForInput)
-import Control.Monad (forever, filterM)
+import Control.Monad (forever, filterM, void)
 -- import System.IO
 import Data.Maybe (listToMaybe)
 import Data.Monoid (Endo, All(All))
 --import Graphics.X11.Xlib (All)
 import Graphics.X11.Xlib.Extras (getWindowAttributes, WindowAttributes, Event)
-import Control.Monad.State (gets)
+import Control.Monad.State (gets, MonadIO)
+import Data.Time.Clock (getCurrentTime)
+import Data.Time.Format.ISO8601 (formatShow, iso8601Format)
 
 windowRole = stringProperty "WM_WINDOW_ROLE"
 gtkAppId = stringProperty "_GTK_APPLICATION_ID"
+
+debugLog msg = do
+  currentTime <- getCurrentTime
+  let logline = (formatShow iso8601Format currentTime) ++ ": " ++ msg ++ "\n"
+  appendFile "/home/david/.xmonad/log.txt" logline
 
 ------------------------------------------------------------------------
 -- Window rules
@@ -97,6 +106,10 @@ sharedConfig xmobarProcess = docks $ def
     , terminal = "terminator"
     }
 
+startupProgramsHook :: [(String, Query Bool)] -> X ()
+startupProgramsHook programs = do
+  mconcat (uncurry spawnIfNotRunning <$> programs)
+
 watchForSignalNotifications :: IO (Event -> X All)
 watchForSignalNotifications = do
   (_, Just dbusStdout, _, _) <- createProcess (proc "dbus-monitor" ["interface='org.freedesktop.Notifications'"]) {std_out = CreatePipe}
@@ -116,16 +129,29 @@ watchForSignalNotifications = do
         else return ()
     )
 
-  return $ updatedRefEventHook ref (do maybeSignal <- findSignal
-                                       whenJust maybeSignal selectWindow)
+  return $ updatedRefEventHook ref (moveWindowToCurrentWorkspace (className =? "Signal"))
 
-findSignalWindow :: [Window] -> X (Maybe Window)
-findSignalWindow windowIds = do
-  signalWindows <- filterM (\w -> runQuery (className =? "Signal") w) windowIds
+spawnIfNotRunning :: String -> Query Bool -> X ()
+spawnIfNotRunning program query = do
+  maybeWindow <- findWindow query
+
+  if maybeWindow == Nothing
+    then spawn program
+    else return ()
+
+moveWindowToCurrentWorkspace :: Query Bool -> X ()
+moveWindowToCurrentWorkspace query = do
+  maybeWindow <- findWindow query
+  whenJust maybeWindow selectWindow
+
+findWindow :: Query Bool -> X (Maybe Window)
+findWindow query = do
+  windowIds <- gets (allWindows . windowset)
+  signalWindows <- filterM (\w -> runQuery query w) windowIds
   return (listToMaybe signalWindows)
 
-findSignal :: X (Maybe Window)
-findSignal = gets (allWindows . windowset) >>= findSignalWindow
+findWindowByClassName :: String -> X (Maybe Window)
+findWindowByClassName theClassName = findWindow (className =? theClassName)
 
 updatedRefEventHook :: IORef Bool -> X a -> (Event -> X All)
 updatedRefEventHook ref action event = do
