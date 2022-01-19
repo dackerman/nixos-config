@@ -14,11 +14,7 @@ main = do
 
   let baseConfig = sharedConfig xmproc
 
-  let startupPrograms =
-        [ ("signal-desktop", className =? "Signal")
-        , ("emacs", className =? "Emacs")
-        , ("google-chrome-stable", className =? "Google-chrome")
-        ]
+  let startupPrograms = [signalApp, emacsApp, chromeApp]
 
   xmonad $ (
     baseConfig { workspaces = ["1:code", "2:term", "3:web", "4", "5", "6:entertainment", "7:music", "8", "9"]

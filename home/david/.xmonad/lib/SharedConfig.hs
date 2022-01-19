@@ -10,9 +10,12 @@ module SharedConfig
   , sharedConfig
   , watchForSignalNotifications
   , startupProgramsHook
+  , signalApp
+  , emacsApp
+  , chromeApp
   ) where
 import XMonad (xmonad, stringProperty, className, (=?), (<&&>), (-->), (<+>), (.|.), doFloat, composeAll, workspaces,
-               keys, xK_b, xK_e, xK_c, mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, startupHook, manageHook,
+               keys, xK_b, xK_e, xK_c, xK_s, mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, startupHook, manageHook,
                controlMask, logHook, normalBorderColor,focusedBorderColor, modMask, terminal, layoutHook, spawn, io,
                Query(), WindowSet, title, appName, X, handleEventHook, reveal, Window, whenJust, runQuery, windowset,
                uninstallSignalHandlers)
@@ -74,6 +77,7 @@ floatingWindows = [ className =? "MPlayer"
                   , windowRole =? "gnome-calculator"
                   , className =? "Signal"
                   , gtkAppId =? "org.gnome.Nautilus"
+                  , className =? "Xmessage"
                   ]
 
 makeFloating w = w --> doFloat
@@ -85,11 +89,28 @@ ctrlKey = controlMask
 rightAlt = mod3Mask
 windowsKey = mod4Mask
 
+data Application = Application
+  { appQuery :: Query Bool
+  , appCreate :: X ()
+  }
+
+signalApp = Application (className =? "Signal") (spawn "signal-desktop")
+emacsApp = Application (className =? "Emacs") (spawn "emacs")
+chromeApp = Application (className =? "Google-chrome") (spawn "google-chrome-stable")
+
 sharedKeyMap customModMask =
   [ ((customModMask, xK_b), sendMessage ToggleStruts)
-  , ((ctrlKey .|. altKey, xK_e), spawn "emacs")
-  , ((ctrlKey .|. altKey, xK_c), spawn "google-chrome-stable")
+  , ((ctrlKey .|. altKey, xK_e), appCreate emacsApp)
+  , ((ctrlKey .|. altKey, xK_c), appCreate chromeApp)
+  , ((ctrlKey .|. altKey, xK_s), showOnCurrent signalApp)
   ]
+
+spawnApp :: Application -> X ()
+spawnApp (Application _ c) = c
+
+showOnCurrent (Application query createWindow) = do
+  maybeWindow <- findWindow query
+  maybe createWindow selectWindow maybeWindow
 
 sharedLayouts = layoutHook def ||| ThreeColMid 1 (3/100) (1/2) ||| Grid ||| spiral (1/2)
 
@@ -106,9 +127,9 @@ sharedConfig xmobarProcess = docks $ def
     , terminal = "terminator"
     }
 
-startupProgramsHook :: [(String, Query Bool)] -> X ()
-startupProgramsHook programs = do
-  mconcat (uncurry spawnIfNotRunning <$> programs)
+startupProgramsHook :: [Application] -> X ()
+startupProgramsHook programs =
+  mconcat (spawnIfNotRunning <$> programs)
 
 watchForSignalNotifications :: IO (Event -> X All)
 watchForSignalNotifications = do
@@ -131,12 +152,13 @@ watchForSignalNotifications = do
 
   return $ updatedRefEventHook ref (moveWindowToCurrentWorkspace (className =? "Signal"))
 
-spawnIfNotRunning :: String -> Query Bool -> X ()
-spawnIfNotRunning program query = do
+
+spawnIfNotRunning :: Application -> X ()
+spawnIfNotRunning (Application query create) = do
   maybeWindow <- findWindow query
 
   if maybeWindow == Nothing
-    then spawn program
+    then create
     else return ()
 
 moveWindowToCurrentWorkspace :: Query Bool -> X ()
