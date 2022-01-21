@@ -15,7 +15,7 @@ module SharedConfig
   , chromeApp
   ) where
 import XMonad (xmonad, stringProperty, className, (=?), (<&&>), (-->), (<+>), (.|.), doFloat, composeAll, workspaces,
-               keys, xK_b, xK_e, xK_c, xK_s, mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, startupHook, manageHook,
+               keys, xK_b, xK_e, xK_c, xK_s, xK_w, mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, startupHook, manageHook,
                controlMask, logHook, normalBorderColor,focusedBorderColor, modMask, terminal, layoutHook, spawn, io,
                Query(), WindowSet, title, appName, X, handleEventHook, reveal, Window, whenJust, runQuery, windowset,
                uninstallSignalHandlers)
@@ -78,6 +78,7 @@ floatingWindows = [ className =? "MPlayer"
                   , className =? "Signal"
                   , gtkAppId =? "org.gnome.Nautilus"
                   , className =? "Xmessage"
+                  , appQuery weatherApp
                   ]
 
 makeFloating w = w --> doFloat
@@ -97,12 +98,14 @@ data Application = Application
 signalApp = Application (className =? "Signal") (spawn "signal-desktop")
 emacsApp = Application (className =? "Emacs") (spawn "emacs")
 chromeApp = Application (className =? "Google-chrome") (spawn "google-chrome-stable")
+weatherApp = Application (className =? "Org.gnome.Weather") (spawn "gnome-weather")
 
 sharedKeyMap customModMask =
   [ ((customModMask, xK_b), sendMessage ToggleStruts)
   , ((ctrlKey .|. altKey, xK_e), appCreate emacsApp)
   , ((ctrlKey .|. altKey, xK_c), appCreate chromeApp)
   , ((ctrlKey .|. altKey, xK_s), showOnCurrent signalApp)
+  , ((ctrlKey .|. altKey, xK_w), showOnCurrent weatherApp)
   ]
 
 spawnApp :: Application -> X ()
@@ -184,8 +187,9 @@ updatedRefEventHook ref action event = do
   return (All True)
 
 selectWindow :: Window -> X ()
-selectWindow signalWindow = windows (moveToCurrentWorkspaceWithoutFocusing signalWindow)
-  where moveToCurrentWorkspaceWithoutFocusing window stackSet = shiftWinWithoutFocus (currentTag stackSet) window stackSet
+selectWindow win = windows (moveToCurrentWorkspaceWithoutFocusing win)
+  where moveToCurrentWorkspaceWithoutFocusing window stackSet =
+          shiftWinWithoutFocus (currentTag stackSet) window stackSet
 
 -- See shiftWin function from XMonad.StackSet. This is just a version that doesn't also focus
 -- the window after moving it. Instead, it moves the given window to the current screen as-is.
