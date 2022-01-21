@@ -1,4 +1,4 @@
-Config { font = "xft:Hack:size=7:regular:antialias=true"
+Config { font = "xft:Hack:size=12:regular:antialias=true"
        , bgColor = "black"
        , fgColor = "grey"
        , position = Top

@@ -15,6 +15,7 @@
     };
 
   services.xserver = {
+    dpi = 96;
     videoDrivers = [ "nvidia" ];
   };
 
@@ -32,5 +33,12 @@
   # try to fix bluetooth issue
   # see https://nixos.wiki/wiki/Bluetooth
   hardware.enableAllFirmware = true;
+
+  # Fix HiDPI settings for Gnome
+  environment.variables = {
+    GDK_SCALE = "1";
+    GDK_DPI_SCALE = "1";
+    _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
+  };
 
 }
