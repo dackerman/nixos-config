@@ -55,7 +55,6 @@
     # Programming and editing
     emacs
     git
-    wget
     tree
     nodejs
     yarn
@@ -67,7 +66,8 @@
     firefox
     gimp
     vlc
-
+    obs-studio                # screen recording
+    ffmpeg                    # convert mp4 to gif
   ];
 
   fonts.fonts = with pkgs; [
