@@ -34,5 +34,5 @@ Config { font = "xft:Hack:size=12:regular:antialias=true"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %multicpu% | %memory% | %enp7s0% | %multicoretemp% | <fc=#ee9a00>%date%</fc> | %KSFO%"
+       , template = " %StdinReader% }{ %multicpu% | %memory% | %enp7s0% | %multicoretemp% | <fc=#ee9a00>%date%</fc> | %KSFO% "
        }
