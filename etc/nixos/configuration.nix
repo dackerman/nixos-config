@@ -69,6 +69,7 @@
     vlc
     obs-studio                # screen recording
     ffmpeg                    # convert mp4 to gif
+    youtube-dl
   ];
 
   fonts.fonts = with pkgs; [
