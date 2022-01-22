@@ -51,6 +51,7 @@
     scrot                     # take screenshots
     xclip                     # send to clipboard from terminal
     veracrypt                 # encrypted drives and files
+    killall
 
     # Programming and editing
     emacs

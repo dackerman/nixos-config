@@ -14,11 +14,7 @@ module SharedConfig
   , emacsApp
   , chromeApp
   ) where
-import XMonad (xmonad, stringProperty, className, (=?), (<&&>), (-->), (<+>), (.|.), doFloat, composeAll, workspaces,
-               keys, xK_b, xK_e, xK_c, xK_s, xK_w, mod4Mask, mod3Mask, mod2Mask, mod1Mask, defaultConfig, startupHook, manageHook,
-               controlMask, logHook, normalBorderColor,focusedBorderColor, modMask, terminal, layoutHook, spawn, io,
-               Query(), WindowSet, title, appName, X, handleEventHook, reveal, Window, whenJust, runQuery, windowset,
-               uninstallSignalHandlers)
+import XMonad
 import XMonad.Operations (sendMessage, windows)
 import XMonad.StackSet (allWindows, shiftWin, currentTag, StackSet, Stack(Stack), member, modify, findTag, tagMember,
                         delete', view)
@@ -102,6 +98,7 @@ weatherApp = Application (className =? "Org.gnome.Weather") (spawn "gnome-weathe
 
 sharedKeyMap customModMask =
   [ ((customModMask, xK_b), sendMessage ToggleStruts)
+  , ((customModMask .|. shiftMask, xK_v), spawn "killall '.vlc-wrapped'")
   , ((ctrlKey .|. altKey, xK_e), appCreate emacsApp)
   , ((ctrlKey .|. altKey, xK_c), appCreate chromeApp)
   , ((ctrlKey .|. altKey, xK_s), showOnCurrent signalApp)
