@@ -14,7 +14,13 @@ main = do
 
   let baseConfig = sharedConfig xmproc
 
-  let startupPrograms = [signalApp, emacsApp, chromeApp]
+      startupPrograms = [signalApp, emacsApp, chromeApp]
+
+      mediaKeys = [ ((0, 0x1008FF11), spawn "amixer -q sset Master 2%-"),
+                    ((0, 0x1008FF13), spawn "amixer -q sset Master 2%+"),
+                    ((0, 0x1008FF12), spawn "amixer set Master toggle")
+                  ]
+
 
   xmonad $ (
     baseConfig { workspaces = ["1:code", "2:term", "3:web", "4", "5", "6:entertainment", "7:music", "8", "9"]
@@ -22,5 +28,5 @@ main = do
                , startupHook = startupProgramsHook startupPrograms <> startupHook baseConfig
                , handleEventHook = moveSignalToCurrentWindowHook
                , modMask = myModMask
-               } `additionalKeys` (sharedKeyMap myModMask)
+               } `additionalKeys` ((sharedKeyMap myModMask) ++ mediaKeys)
     )
