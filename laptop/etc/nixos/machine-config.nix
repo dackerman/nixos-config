@@ -8,6 +8,16 @@
     touchpad.naturalScrolling = false;
   };
 
+  # Backlight support
+   programs.light.enable = true;
+  services.actkbd = {
+    enable = true;
+    bindings = [ # Make brightness keys work
+      { keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 10"; }
+      { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
+    ];
+  };
+
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
