@@ -52,6 +52,7 @@
     xclip                     # send to clipboard from terminal
     veracrypt                 # encrypted drives and files
     killall
+    gnupg
 
     # Programming and editing
     emacs
@@ -70,6 +71,8 @@
     obs-studio                # screen recording
     ffmpeg                    # convert mp4 to gif
     youtube-dl
+    isync                     # sync email
+    notmuch                   # process email
   ];
 
   fonts.fonts = with pkgs; [
