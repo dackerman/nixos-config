@@ -14,10 +14,10 @@ module SharedConfig
   , emacsApp
   , chromeApp
   ) where
-import XMonad
+import XMonad hiding (modify)
 import XMonad.Operations (sendMessage, windows)
-import XMonad.StackSet (allWindows, shiftWin, currentTag, StackSet, Stack(Stack), member, modify, findTag, tagMember,
-                        delete', view)
+import XMonad.StackSet (allWindows, currentTag, StackSet, Stack(Stack), member, findTag, tagMember, modify,
+                        delete', view, insertUp)
 import XMonad.Hooks.SetWMName (setWMName)
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobar, xmobarPP, xmobarColor, shorten, ppOutput, ppTitle)
 import XMonad.Hooks.ManageDocks (manageDocks, avoidStruts, docks, ToggleStruts(ToggleStruts))
@@ -101,16 +101,16 @@ sharedKeyMap customModMask =
   , ((customModMask .|. shiftMask, xK_v), spawn "killall '.vlc-wrapped'")
   , ((ctrlKey .|. altKey, xK_e), appCreate emacsApp)
   , ((ctrlKey .|. altKey, xK_c), appCreate chromeApp)
-  , ((ctrlKey .|. altKey, xK_s), showOnCurrent signalApp)
-  , ((ctrlKey .|. altKey, xK_w), showOnCurrent weatherApp)
+  , ((ctrlKey .|. altKey, xK_s), focusOnCurrentWorkspace signalApp)
+  , ((ctrlKey .|. altKey, xK_w), focusOnCurrentWorkspace weatherApp)
   ]
 
 spawnApp :: Application -> X ()
 spawnApp (Application _ c) = c
 
-showOnCurrent (Application query createWindow) = do
+focusOnCurrentWorkspace (Application query createWindow) = do
   maybeWindow <- findWindow query
-  maybe createWindow selectWindow maybeWindow
+  maybe createWindow (selectWindow insertAndFocus) maybeWindow
 
 sharedLayouts = layoutHook def ||| ThreeColMid 1 (3/100) (1/2) ||| Grid ||| spiral (1/2)
 
@@ -164,7 +164,7 @@ spawnIfNotRunning (Application query create) = do
 moveWindowToCurrentWorkspace :: Query Bool -> X ()
 moveWindowToCurrentWorkspace query = do
   maybeWindow <- findWindow query
-  whenJust maybeWindow selectWindow
+  whenJust maybeWindow (selectWindow insertWithoutFocus)
 
 findWindow :: Query Bool -> X (Maybe Window)
 findWindow query = do
@@ -183,25 +183,28 @@ updatedRefEventHook ref action event = do
     else return ()
   return (All True)
 
-selectWindow :: Window -> X ()
-selectWindow win = windows (moveToCurrentWorkspaceWithoutFocusing win)
-  where moveToCurrentWorkspaceWithoutFocusing window stackSet =
-          shiftWinWithoutFocus (currentTag stackSet) window stackSet
+selectWindow :: (Window -> WindowSet -> WindowSet) -> Window -> X ()
+selectWindow inserter window = windows doSelect
+  where doSelect stackSet = shiftWin inserter (currentTag stackSet) window stackSet
 
 -- See shiftWin function from XMonad.StackSet. This is just a version that doesn't also focus
 -- the window after moving it. Instead, it moves the given window to the current screen as-is.
 -- https://hackage.haskell.org/package/xmonad-0.17.0/docs/XMonad-StackSet.html#g:10
-shiftWinWithoutFocus :: (Ord a, Eq s, Eq i) => i -> a -> StackSet i l a s sd -> StackSet i l a s sd
-shiftWinWithoutFocus n w s =
+shiftWin :: (Ord a, Eq s, Eq i) => (a -> StackSet i l a s sd -> StackSet i l a s sd) -> i -> a -> StackSet i l a s sd -> StackSet i l a s sd
+shiftWin inserter n w s =
   case findTag w s of
     Just from | n `tagMember` s && n /= from -> go from s
     _                                        -> s
-  where go from = onWorkspace n (insertWithoutFocus w) . onWorkspace from (delete' w)
+  where go from = onWorkspace n (inserter w) . onWorkspace from (delete' w)
+
 
 -- See insertUp from XMonad.StackSet. This just inserts without also adding focus.
 insertWithoutFocus :: Eq a => a -> StackSet i l a s sd -> StackSet i l a s sd
 insertWithoutFocus a s = if member a s then s else insert
   where insert = modify (Just $ Stack a [] []) (\(Stack t l r) -> Just $ Stack t l (a:r)) s
+
+insertAndFocus :: Eq a => a -> StackSet i l a s sd -> StackSet i l a s sd
+insertAndFocus = insertUp
 
 -- Helper function that wasn't exposed from XMonad.StackSet. It's unchanged
 onWorkspace :: (Eq i, Eq s) => i -> (StackSet i l a s sd -> StackSet i l a s sd)
