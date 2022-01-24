@@ -37,6 +37,10 @@
     # interactiveShellInit = "source ~/bash-scripts/z.sh";
   };
 
+  environment.variables = {
+    EDITOR = "emacsclient";
+  };
+
   environment.systemPackages = with pkgs; [
     # System tools
     dmenu                     # open applications
@@ -79,6 +83,8 @@
     monoid
     hack-font
   ];
+
+  services.emacs.enable = true;
 
   services.openssh.enable = true;
 
