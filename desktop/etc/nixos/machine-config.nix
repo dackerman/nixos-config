@@ -38,7 +38,7 @@
   environment.variables = {
     GDK_SCALE = "1";
     GDK_DPI_SCALE = "1";
-    _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
+    _JAVA_OPTIONS = "-Dsun.java2d.uiScale=1";
   };
 
 }
