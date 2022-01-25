@@ -92,7 +92,7 @@ data Application = Application
   }
 
 signalApp = Application (className =? "Signal") (spawn "signal-desktop")
-emacsApp = Application (className =? "Emacs") (spawn "emacsclient")
+emacsApp = Application (className =? "Emacs") (spawn "emacsclient -c")
 chromeApp = Application (className =? "Google-chrome") (spawn "google-chrome-stable")
 weatherApp = Application (className =? "Org.gnome.Weather") (spawn "gnome-weather")
 
