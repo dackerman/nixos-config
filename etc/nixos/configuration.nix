@@ -57,6 +57,7 @@
     veracrypt                 # encrypted drives and files
     killall
     gnupg
+    espeak                    # text-to-speech from the command line
 
     # Programming and editing
     emacs
