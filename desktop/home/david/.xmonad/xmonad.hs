@@ -14,7 +14,7 @@ main = do
 
   let baseConfig = sharedConfig xmproc
 
-  let startupPrograms = [signalApp, emacsApp, chromeApp]
+  let startupPrograms = [signalApp, weatherApp, terminalApp, chromeApp, emacsApp]
 
   xmonad $ (
     baseConfig { workspaces = ["1:code", "2:term", "3:web", "4", "5", "6:entertainment", "7:music", "8", "9"]

@@ -13,6 +13,8 @@ module SharedConfig
   , signalApp
   , emacsApp
   , chromeApp
+  , terminalApp
+  , weatherApp
   ) where
 import XMonad hiding (modify)
 import XMonad.Operations (sendMessage, windows)
@@ -89,12 +91,14 @@ windowsKey = mod4Mask
 data Application = Application
   { appQuery :: Query Bool
   , appCreate :: X ()
+  , preferredWorkspaceId :: String
   }
 
-signalApp = Application (className =? "Signal") (spawn "signal-desktop")
-emacsApp = Application (className =? "Emacs") (spawn "emacsclient -c")
-chromeApp = Application (className =? "Google-chrome") (spawn "google-chrome-stable")
-weatherApp = Application (className =? "Org.gnome.Weather") (spawn "gnome-weather")
+signalApp = Application (className =? "Signal") (spawn "signal-desktop") "5"
+emacsApp = Application (className =? "Emacs") (spawn "emacsclient -c") "1:code"
+terminalApp = Application (className =? "Terminator") (spawn "terminator") "1:code"
+chromeApp = Application (className =? "Google-chrome") (spawn "google-chrome-stable") "1:code"
+weatherApp = Application (className =? "Org.gnome.Weather") (spawn "gnome-weather") "5"
 
 sharedKeyMap customModMask =
   [ ((customModMask, xK_b), sendMessage ToggleStruts)
@@ -106,9 +110,9 @@ sharedKeyMap customModMask =
   ]
 
 spawnApp :: Application -> X ()
-spawnApp (Application _ c) = c
+spawnApp (Application _ c _) = c
 
-focusOnCurrentWorkspace (Application query createWindow) = do
+focusOnCurrentWorkspace (Application query createWindow _) = do
   maybeWindow <- findWindow query
   maybe createWindow (selectWindow insertAndFocus) maybeWindow
 
@@ -154,7 +158,7 @@ watchForSignalNotifications = do
 
 
 spawnIfNotRunning :: Application -> X ()
-spawnIfNotRunning (Application query create) = do
+spawnIfNotRunning (Application query create _) = do
   maybeWindow <- findWindow query
 
   if maybeWindow == Nothing
