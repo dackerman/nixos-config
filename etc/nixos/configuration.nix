@@ -38,7 +38,7 @@
   };
 
   environment.variables = {
-    EDITOR = "emacsclient";
+    EDITOR = "emacsclient -c";
   };
 
   environment.systemPackages = with pkgs; [
@@ -78,6 +78,7 @@
     youtube-dl
     isync                     # sync email
     notmuch                   # process email
+    rclone                    # Google Drive syncing utility
   ];
 
   fonts.fonts = with pkgs; [
