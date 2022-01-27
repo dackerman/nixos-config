@@ -21,33 +21,26 @@ function link_file() {
     else
         prefix="`pwd`/$2"
     fi
-    if [[ "`readlink -f /$filepath`" == "$prefix/$filepath" ]]
+    if [[ "`readlink -f $filepath`" == "$prefix$filepath" ]]
     then
         echo "ALREADY LINKED: $filepath (skipping)"
         return
     fi
-    if [ -e "/$filepath" ]
+    if [ -e "$filepath" ]
     then
-        newfilepath="/$filepath.$(timestamp).backup"
+        newfilepath="$filepath.$(timestamp).backup"
         echo "Moving existing file to $newfilepath"
-        sudo mv "/$filepath" "$newfilepath"
+        sudo mv "$filepath" "$newfilepath"
     fi
-    mkdir -p $(dirname "/$filepath")
-    echo "linking /$filepath to $prefix/$filepath"
-    sudo ln -s "$prefix/$filepath" "/$filepath"
+    mkdir -p $(dirname "$filepath")
+    echo "linking $filepath to $prefix$filepath"
+    sudo ln -s "$prefix$filepath" "$filepath"
 }
 
-link_file "etc/nixos/configuration.nix"
-link_file "etc/nixos/grub-bg.png"
-link_file "home/david/.xmonad/lib/SharedConfig.hs"
-link_file "home/david/.config/terminator"
-link_file "home/david/shared_profile.sh"
+# Link all shared files to home
+find home -type f | sed 's/^/\//' | while read -r line; do link_file "$line"; done
 
-link_file "home/david/.xmobarrc" "$platform"
-link_file "home/david/.config/twmn/twmn.conf" "$platform"
-link_file "home/david/.stalonetrayrc" "$platform"
-link_file "home/david/.xmonad/xmonad.hs" "$platform"
-link_file "home/david/.profile" "$platform"
-link_file "etc/nixos/machine-config.nix" "$platform"
+# Link all files within platform
+find "$platform" -type f | cut -d'/' -f2- | sed 's/^/\//' | while read -r line; do link_file "$line" "$platform"; done
 
 echo "done."

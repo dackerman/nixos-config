@@ -1,0 +1,3 @@
+mbsync gmail
+notmuch new
+./apply-new-tags
