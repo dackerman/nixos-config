@@ -56,8 +56,11 @@
     xclip                     # send to clipboard from terminal
     veracrypt                 # encrypted drives and files
     killall
-    gnupg
+    gnupg                     # encryption program
+    pinentry-curses           # pinentry needed for gnupg
     espeak                    # text-to-speech from the command line
+    jq
+    multimarkdown             # view markdown from emacs
 
     # Programming and editing
     emacs
@@ -80,6 +83,13 @@
     notmuch                   # process email
     rclone                    # Google Drive syncing utility
   ];
+
+  services.pcscd.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryFlavor = "curses";
+    enableSSHSupport = true;
+  };
 
   fonts.fonts = with pkgs; [
     monoid
@@ -122,7 +132,6 @@
         source ~/.profile
         stalonetray &
         pasystray &
-        twmnd &
         /home/david/bin/setrandomwallpaper.sh
       '';
     };
@@ -132,6 +141,19 @@
        enable = true;
        enableContribAndExtras = true;
       };
+    };
+  };
+
+  # Notification service
+  systemd.user.services.twmnd = {
+    enable = true;
+    description = "Desktop notification program twmn";
+    wantedBy = ["default.target"];
+    after = ["network.target"];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "/run/current-system/sw/bin/twmnd";
+      Restart = "always";
     };
   };
 
