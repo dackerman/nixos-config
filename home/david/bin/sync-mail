@@ -1,3 +1,4 @@
-mbsync gmail
+$HOME/bin/archive-tagged-mail commit
+mbsync -V gmail
 notmuch new
-./apply-new-tags
+$HOME/bin/apply-new-tags

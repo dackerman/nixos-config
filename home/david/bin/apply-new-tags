@@ -1,1 +1,1 @@
-notmuch tag --input=~/code/notmuch-tags/notmuch-tags.txt
+notmuch tag --input="$HOME/code/notmuch-tags/notmuch-tags.txt"

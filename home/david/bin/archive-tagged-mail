@@ -1,9 +1,9 @@
 echo "the following emails are scheduled to be archived:"
-notmuch address --output=count tag:archive folder:gmail/Inbox | sort -h -r
+notmuch address --output=count folder:gmail/Inbox -tag:inbox | sort -h -r
 if [[ "$1" = "commit" ]]
 then
     echo "archiving..."
-    notmuch search --output=files tag:archive folder:gmail/Inbox | grep gmail/Inbox | awk '{ printf "'\''%s'\''\n", $1 }' | xargs -n 20 rm
+    notmuch search --output=files folder:gmail/Inbox -tag:inbox | grep gmail/Inbox | awk '{ printf "'\''%s'\''\n", $1 }' | xargs --no-run-if-empty -n 20 rm
     notmuch new # updates the index
 else
     echo "not archiving anything yet. pass 'commit' to this command to do so"
