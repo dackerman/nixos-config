@@ -82,6 +82,7 @@
     isync                     # sync email
     notmuch                   # process email
     rclone                    # Google Drive syncing utility
+    adoptopenjdk-jre-bin      # Running Java programs
   ];
 
   services.pcscd.enable = true;
@@ -132,7 +133,7 @@
         source ~/.profile
         stalonetray &
         pasystray &
-        /home/david/bin/setrandomwallpaper.sh
+        /home/david/bin/wallpaperchanger.sh 300 & # change wallpaper every 5 min
       '';
     };
 

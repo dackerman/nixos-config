@@ -1,1 +1,1 @@
-notmuch tag --input="$HOME/code/notmuch-tags/notmuch-tags.txt"
+$HOME/bin/cleave apply-tags $HOME/code/notmuch-tags/notmuch-tags.edn
