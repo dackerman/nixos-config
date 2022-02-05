@@ -20,17 +20,21 @@ with.
 
 ### Linking files
 
+    ./link_files <platform>
+
 The first time you pull this repository, you want to symlink all of
 your dotfiles to point to files in this repository. You do that by
-running `./link_files <platform>` where `platform` can be `laptop` or
+running the above command where `platform` can be `laptop` or
 `desktop`. This may ask for your sudo password to link paths that are
 owned by root (usually paths in `/etc/nixos`).
 
 
 ### Updating nixos
 
-After changing your configuration, run `sudo nixos-rebuild switch`
-which will apply all the changes to your system to match
+    sudo nixos-rebuild switch
+
+After changing your configuration, run the above command to apply all
+the changes to your system to match
 `/etc/nixos/configuration.nix`. After doing this, you may want to
 reboot your computer so that various systemd services are started
 properly.
