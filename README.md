@@ -12,6 +12,32 @@ specific to each machine. For example, my keyboard shortcut prefix is
 slightly different on my laptop and desktop, since I use a [kinesis
 keyboard](https://kinesis-ergo.com/shop/advantage2/) on my desktop.
 
+The way this works is that everything under `./etc/**` in this
+repository will get symlinked on the machine at `/etc/**`, `./home/**`
+to `/home/**`, etc. Then, `laptop` and `desktop` are for
+platform-specific files - so if I'm running on desktop, it would link
+`./desktop/etc/**` to `/etc/**` and so on.
+
+### Most important files
+
+My NixOS and XMonad files are below - the way they generally work is
+both the shared and platform-specific files get symlinked into the
+same directory so they can reference each other.
+
+For the NixOS config, my main one is shared and it imports
+`machine-config.nix` which may be symlinked to the laptop or desktop
+version.
+* main shared config is at [etc/nixos/configuration.nix](./etc/nixos/configuration.nix)
+* desktop nixos module [desktop/etc/nixos/machine-config.nix](./desktop/etc/nixos/machine-config.nix)
+* laptop nixos module [laptop/etc/nixos/machine-config.nix](./laptop/etc/nixos/machine-config.nix)
+
+For my XMonad config, I actually define the main method in my
+platform-specific file, and then import the `./lib/SharedConfig` file
+in each of them. This way I have full control over what parts of the
+shared config I pull in for i.e. keyboard shortcuts.
+* shared XMonad config [home/david/.xmonad/lib/SharedConfig.hs](./home/david/.xmonad/lib/SharedConfig.hs)
+* desktop XMonad main [desktop/home/david/.xmonad/xmonad.hs](./desktop/home/david/.xmonad/xmonad.hs)
+
 ## Usage
 
 I assume you already have [NixOS
