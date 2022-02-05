@@ -61,6 +61,7 @@
     espeak                    # text-to-speech from the command line
     jq
     multimarkdown             # view markdown from emacs
+    unzip
 
     # Programming and editing
     emacs
