@@ -86,6 +86,8 @@
     adoptopenjdk-jre-bin      # Running Java programs
   ];
 
+  programs.steam.enable = true;
+
   services.pcscd.enable = true;
   programs.gnupg.agent = {
     enable = true;

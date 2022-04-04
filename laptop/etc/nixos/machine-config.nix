@@ -32,6 +32,7 @@
   boot.kernelParams = [ "net.ifnames=0" ];
 
 
+  # Program is NMTUI
   networking = {
     hostName = "decomplected";
     hostId = "1a9f99d0";
