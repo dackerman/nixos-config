@@ -62,6 +62,7 @@
     jq
     multimarkdown             # view markdown from emacs
     unzip
+    protontricks              # for running windows games through steam
 
     # Programming and editing
     emacs
