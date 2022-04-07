@@ -70,6 +70,7 @@
     nodejs
     yarn
     clojure
+    android-studio
 
     # Applications
     signal-desktop            # chat application
@@ -84,6 +85,7 @@
     notmuch                   # process email
     rclone                    # Google Drive syncing utility
     adoptopenjdk-jre-bin      # Running Java programs
+    blender
   ];
 
   services.pcscd.enable = true;

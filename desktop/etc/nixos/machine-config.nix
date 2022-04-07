@@ -15,17 +15,17 @@
     };
 
   # Use rclone to sync notes with GoogleDrive
-  systemd.user.services.syncnotes = {
-    enable = true;
-    description = "sync ~/notes to Google Drive";
-    wantedBy = ["default.target"];
-    after = ["network.target"];
-    serviceConfig = {
-      Type = "notify";
-      ExecStart = "/run/current-system/sw/bin/bash -c 'PATH=/run/wrappers/bin:$PATH exec /run/current-system/sw/bin/rclone mount drive:notes /home/david/notes -vv --config=/home/david/.config/rclone/rclone.conf --cache-dir=/home/david/.cache/rclone'";
-      Restart = "always";
-    };
-  };
+  # systemd.user.services.syncnotes = {
+  #   enable = true;
+  #   description = "sync ~/notes to Google Drive";
+  #   wantedBy = ["default.target"];
+  #   after = ["network.target"];
+  #   serviceConfig = {
+  #     Type = "notify";
+  #     ExecStart = "/run/current-system/sw/bin/bash -c 'PATH=/run/wrappers/bin:$PATH exec /run/current-system/sw/bin/rclone mount drive:notes /home/david/notes -vv --config=/home/david/.config/rclone/rclone.conf --cache-dir=/home/david/.cache/rclone'";
+  #     Restart = "always";
+  #   };
+  # };
 
   services.xserver = {
     dpi = 96;
