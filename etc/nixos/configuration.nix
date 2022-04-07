@@ -62,6 +62,7 @@
     jq
     multimarkdown             # view markdown from emacs
     unzip
+    protontricks              # for running windows games through steam
 
     # Programming and editing
     emacs
@@ -87,6 +88,8 @@
     adoptopenjdk-jre-bin      # Running Java programs
     blender
   ];
+
+  programs.steam.enable = true;
 
   services.pcscd.enable = true;
   programs.gnupg.agent = {
