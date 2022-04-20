@@ -87,6 +87,7 @@
     rclone                    # Google Drive syncing utility
     adoptopenjdk-jre-bin      # Running Java programs
     blender
+    obsidian                  # Second brain
   ];
 
   programs.steam.enable = true;
