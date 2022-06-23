@@ -72,6 +72,7 @@
     yarn
     clojure
     android-studio
+    leiningen
 
     # Applications
     signal-desktop            # chat application
