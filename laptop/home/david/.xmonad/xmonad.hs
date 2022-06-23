@@ -5,7 +5,7 @@ import Data.Monoid (mconcat, (<>))
 
 import SharedConfig
 
-myModMask = altKey
+myModMask = windowsKey
 
 main = do
   xmproc <- spawnPipe "xmobar"
