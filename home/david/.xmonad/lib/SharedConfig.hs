@@ -103,6 +103,7 @@ weatherApp = Application (className =? "Org.gnome.Weather") (spawn "gnome-weathe
 sharedKeyMap customModMask =
   [ ((customModMask, xK_b), sendMessage ToggleStruts)
   , ((customModMask .|. shiftMask, xK_v), spawn "killall '.vlc-wrapped'")
+  , ((customModMask .|. shiftMask, xK_s), spawn "/home/david/bin/sync-notes.sh")
   , ((ctrlKey .|. altKey, xK_e), appCreate emacsApp)
   , ((ctrlKey .|. altKey, xK_c), appCreate chromeApp)
   , ((ctrlKey .|. altKey, xK_s), focusOnCurrentWorkspace signalApp)
