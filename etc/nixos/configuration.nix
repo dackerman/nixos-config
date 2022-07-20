@@ -73,6 +73,7 @@
     clojure
     android-studio
     leiningen
+    clj-kondo                 # clojure linting support in editor
 
     # Applications
     signal-desktop            # chat application
