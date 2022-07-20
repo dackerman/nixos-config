@@ -87,7 +87,7 @@
     isync                     # sync email
     notmuch                   # process email
     rclone                    # Google Drive syncing utility
-    adoptopenjdk-jre-bin      # Running Java programs
+    jdk                       # Running/compiling Java programs
     blender
     obsidian                  # Second brain
   ];
