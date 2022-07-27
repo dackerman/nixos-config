@@ -2,6 +2,7 @@ import XMonad
 import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.EZConfig (additionalKeys)
 import Data.Monoid (mconcat, (<>))
+import Data.List (tail)
 
 import SharedConfig
 
@@ -14,10 +15,21 @@ main = do
 
   let baseConfig = sharedConfig xmproc
 
-  let startupPrograms = [signalApp, weatherApp, terminalApp, chromeApp, emacsApp]
+      -- Define special workspaces here
+      codeWorkspace          = "1:code"
+      termWorkspace          = "2:term"
+      webWorkspace           = "3:web"
+      healthWorkspace        = "5:health"
+      entertainmentWorkspace = "6:entertainment"
+      musicWorkspace         = "7:music"
+
+  let startupPrograms = [(signalApp, healthWorkspace),
+                         (terminalApp, termWorkspace),
+                         (chromeApp, codeWorkspace),
+                         (emacsApp, codeWorkspace)]
 
   xmonad $ (
-    baseConfig { workspaces = ["1:code", "2:term", "3:web", "4", "5", "6:entertainment", "7:music", "8", "9"]
+    baseConfig { workspaces = [codeWorkspace, termWorkspace, webWorkspace, "4", healthWorkspace, entertainmentWorkspace, musicWorkspace, "8", "9"]
                , manageHook = manageHook baseConfig
                , startupHook = startupProgramsHook startupPrograms <> startupHook baseConfig
                , handleEventHook = moveSignalToCurrentWindowHook

@@ -10,6 +10,7 @@ module SharedConfig
   , sharedConfig
   , watchForSignalNotifications
   , startupProgramsHook
+  , spawnIfNotRunning
   , signalApp
   , emacsApp
   , chromeApp
@@ -23,6 +24,7 @@ import XMonad.StackSet (allWindows, currentTag, StackSet, Stack(Stack), member, 
 import XMonad.Hooks.SetWMName (setWMName)
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobar, xmobarPP, xmobarColor, shorten, ppOutput, ppTitle)
 import XMonad.Hooks.ManageDocks (manageDocks, avoidStruts, docks, ToggleStruts(ToggleStruts))
+import XMonad.Actions.SpawnOn (manageSpawn, spawnOn)
 import XMonad.Layout.Spiral (spiral)
 import XMonad.Layout.ThreeColumns (ThreeCol(ThreeCol, ThreeColMid))
 import XMonad.Layout.Grid (Grid(Grid))
@@ -90,37 +92,36 @@ windowsKey = mod4Mask
 
 data Application = Application
   { appQuery :: Query Bool
-  , appCreate :: X ()
-  , preferredWorkspaceId :: String
+  , spawnProgram :: String
   }
 
-signalApp = Application (className =? "Signal") (spawn "signal-desktop") "5"
-emacsApp = Application (className =? "Emacs") (spawn "emacsclient -c") "1:code"
-terminalApp = Application (className =? "Terminator") (spawn "terminator") "1:code"
-chromeApp = Application (className =? "Google-chrome") (spawn "google-chrome-stable") "1:code"
-weatherApp = Application (className =? "Org.gnome.Weather") (spawn "gnome-weather") "5"
+signalApp = Application (className =? "Signal") "signal-desktop"
+emacsApp = Application (className =? "Emacs") "emacsclient -c"
+terminalApp = Application (className =? "Terminator") "terminator"
+chromeApp = Application (className =? "Google-chrome") "google-chrome-stable"
+weatherApp = Application (className =? "Org.gnome.Weather") "gnome-weather"
 
 sharedKeyMap customModMask =
   [ ((customModMask, xK_b), sendMessage ToggleStruts)
   , ((customModMask .|. shiftMask, xK_v), spawn "killall '.vlc-wrapped'")
   , ((customModMask .|. shiftMask, xK_s), spawn "/home/david/bin/sync-notes.sh")
-  , ((ctrlKey .|. altKey, xK_e), appCreate emacsApp)
-  , ((ctrlKey .|. altKey, xK_c), appCreate chromeApp)
+  , ((ctrlKey .|. altKey, xK_e), spawnApp emacsApp)
+  , ((ctrlKey .|. altKey, xK_c), spawnApp chromeApp)
   , ((ctrlKey .|. altKey, xK_s), focusOnCurrentWorkspace signalApp)
   , ((ctrlKey .|. altKey, xK_w), focusOnCurrentWorkspace weatherApp)
   ]
 
 spawnApp :: Application -> X ()
-spawnApp (Application _ c _) = c
+spawnApp (Application _ program) = spawn program
 
-focusOnCurrentWorkspace (Application query createWindow _) = do
+focusOnCurrentWorkspace (Application query spawnProgram) = do
   maybeWindow <- findWindow query
-  maybe createWindow (selectWindow insertAndFocus) maybeWindow
+  maybe (spawn spawnProgram) (selectWindow insertAndFocus) maybeWindow
 
 sharedLayouts = layoutHook def ||| ThreeColMid 1 (3/100) (1/2) ||| Grid ||| spiral (1/2)
 
 sharedConfig xmobarProcess = docks $ def
-    { manageHook = floatingWindowsHook
+    { manageHook = manageSpawn <> floatingWindowsHook
     , layoutHook = avoidStruts sharedLayouts
     , logHook = dynamicLogWithPP xmobarPP
                     { ppOutput = hPutStrLn xmobarProcess
@@ -132,7 +133,7 @@ sharedConfig xmobarProcess = docks $ def
     , terminal = "terminator"
     }
 
-startupProgramsHook :: [Application] -> X ()
+startupProgramsHook :: [(Application, String)] -> X ()
 startupProgramsHook programs =
   mconcat (spawnIfNotRunning <$> programs)
 
@@ -158,12 +159,12 @@ watchForSignalNotifications = do
   return $ updatedRefEventHook ref (moveWindowToCurrentWorkspace (className =? "Signal"))
 
 
-spawnIfNotRunning :: Application -> X ()
-spawnIfNotRunning (Application query create _) = do
+spawnIfNotRunning :: (Application, String) -> X ()
+spawnIfNotRunning ((Application query spawnProgram), workspace) = do
   maybeWindow <- findWindow query
 
   if maybeWindow == Nothing
-    then create
+    then spawnOn workspace spawnProgram
     else return ()
 
 moveWindowToCurrentWorkspace :: Query Bool -> X ()
