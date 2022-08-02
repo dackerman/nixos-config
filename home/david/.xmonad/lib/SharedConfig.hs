@@ -100,13 +100,14 @@ emacsApp = Application (className =? "Emacs") "emacsclient -c"
 terminalApp = Application (className =? "Terminator") "terminator"
 chromeApp = Application (className =? "Google-chrome") "google-chrome-stable"
 weatherApp = Application (className =? "Org.gnome.Weather") "gnome-weather"
+calculatorApp = Application (className =? "gnome-calculator") "gnome-calculator"
 
 sharedKeyMap customModMask =
   [ ((customModMask, xK_b), sendMessage ToggleStruts)
   , ((customModMask .|. shiftMask, xK_v), spawn "killall '.vlc-wrapped'")
   , ((customModMask .|. shiftMask, xK_s), spawn "/home/david/bin/sync-notes.sh")
   , ((ctrlKey .|. altKey, xK_e), spawnApp emacsApp)
-  , ((ctrlKey .|. altKey, xK_c), spawnApp chromeApp)
+  , ((ctrlKey .|. altKey, xK_c), spawnApp calculatorApp)
   , ((ctrlKey .|. altKey, xK_s), focusOnCurrentWorkspace signalApp)
   , ((ctrlKey .|. altKey, xK_w), focusOnCurrentWorkspace weatherApp)
   ]
