@@ -27,7 +27,11 @@
   time.timeZone = "US/Pacific";
 
   networking.firewall = {
-    allowedTCPPorts = [ ];
+    enable = true;
+    allowedTCPPorts = [
+      3000 # dev http server
+      9630 # websocket
+    ];
   };
 
   networking.useDHCP = false;
@@ -80,6 +84,7 @@
     google-chrome
     firefox
     gimp
+    inkscape
     vlc
     obs-studio                # screen recording
     ffmpeg                    # convert mp4 to gif
@@ -91,6 +96,9 @@
     blender
     obsidian                  # Second brain
   ];
+
+  services.tailscale.enable = true;
+  networking.firewall.checkReversePath = "loose";
 
   programs.steam.enable = true;
 
@@ -150,6 +158,9 @@
       xmonad = {
        enable = true;
        enableContribAndExtras = true;
+       extraPackages = haskellPackages: [
+         haskellPackages.data-default
+       ];
       };
     };
   };
@@ -188,4 +199,6 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "21.11"; # Did you read the comment?
+
+  system.autoUpgrade.enable = true;
 }
