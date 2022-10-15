@@ -75,10 +75,9 @@
     nodejs
     yarn
     clojure
-    android-studio
+    # android-studio
     leiningen
     clj-kondo                 # clojure linting support in editor
-    flutter                   # android app development with dart
 
     # Applications
     signal-desktop            # chat application
