@@ -1,0 +1,3 @@
+file="/home/david/Documents/screenshots/screenshot-$(date -Iseconds).png"
+scrot -s "$file"
+xclip -selection clipboard -t image/png -i "$file"
