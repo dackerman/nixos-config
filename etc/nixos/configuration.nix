@@ -185,7 +185,8 @@
 
   users.users.david = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" ];
+    description = "David Ackerman";
+    extraGroups = [ "networkmanager" wheel" "audio" ];
     # openssh.authorizedKeys.keyFiles = [
     #   "/home/david/.ssh/id_rsa.pub"
     #   "/home/david/.ssh/laptop_rsa.pub"

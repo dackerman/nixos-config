@@ -1,0 +1,38 @@
+Config { font = "xft:Hack:size=12:regular:antialias=true"
+       , bgColor = "black"
+       , fgColor = "grey"
+       , position = Top
+       , commands = [ Run Weather "KSFO" ["-t","<tempF>F","-L","45","-H","80","--normal","green","--high","red","--low","lightblue"] 36000
+                    , Run MultiCpu [
+                          "-t", "Cpu: <vbar0><vbar1><vbar2><vbar3><vbar4><vbar5><vbar6><vbar7>"
+                        , "-L", "40"
+                        , "-H", "80"
+                        , "--low", "green"
+                        , "--normal", "orange"
+                        , "--high", "red"
+                        ] 10
+                    , Run MultiCoreTemp [
+                          "-t", "<max>°C"
+                        , "-L", "30"
+                        , "-H", "90"
+                        , "--low", "green"
+                        , "--normal", "orange"
+                        , "--high", "red"
+                        ] 50
+                    , Run Network "enp7s0" [
+                          "-t", "↓<tx>|↑<tx>"
+                        , "-S", "True"
+                        , "-w", "7"
+                        , "-T", "17"
+                    ] 10
+                    , Run Memory ["-t","Mem: <used>M"] 10
+                    , Run Volume "default" "Master" [
+                        "-t", "<volume>% <status>"
+                      ] 10
+                    , Run Date "%a %b %_d %Y %I:%M:%S %p" "date" 10
+                    , Run StdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = " %StdinReader% }{ %multicpu% | %memory% | %enp7s0% | %multicoretemp% | <fc=#ee9a00>%date%</fc> | %KSFO% "
+       }
