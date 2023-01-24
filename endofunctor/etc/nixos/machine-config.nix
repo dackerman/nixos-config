@@ -34,6 +34,12 @@
     xkbVariant = "";
     dpi = 96;
     videoDrivers = [ "nvidia" ];
+
+    screenSection = ''
+      Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
+      Option         "AllowIndirectGLXProtocol" "off"
+      Option         "TripleBuffer" "on"
+    '';
   };
 
   # Try to fix issue of ethernet crapping out overnight. Hypothesis
