@@ -18,19 +18,21 @@
 
   nixpkgs.config = {
     allowUnfree = true;
+    # pulseaudio = true;
 
     # packageOverrides = pkgs: {
     #   git = pkgs.git.override { guiSupport = true; };
     # };
   };
 
-  time.timeZone = "US/Pacific";
+  time.timeZone = "America/Los_Angeles";
 
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [
       3000 # dev http server
       9630 # websocket
+      19000 # expo.dev metro port
     ];
   };
 
@@ -56,6 +58,8 @@
     twmn                      # X-server notifications
     stalonetray               # system tray for xmobar
     pasystray                 # system tray icon for pulseaudio
+    pavucontrol               # tweaking pulseaudio settings
+    pamixer                   # CLI tool for managing pulseaudio
     scrot                     # take screenshots
     xclip                     # send to clipboard from terminal
     veracrypt                 # encrypted drives and files
@@ -67,6 +71,7 @@
     multimarkdown             # view markdown from emacs
     unzip
     protontricks              # for running windows games through steam
+    weather
 
     # Programming and editing
     emacs
@@ -120,7 +125,17 @@
 
   services.printing = {
     enable = true;
-    drivers = [ pkgs.gutenprint ];
+    drivers = [
+      # pkgs.gutenprint
+      # pkgs.brgenml1lpr
+      # pkgs.brgenml1cupswrapper
+      pkgs.mfcj470dw-cupswrapper
+    ];
+  };
+  # networking printing
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
   };
 
   # hardware.opengl.driSupport32Bit = true;
