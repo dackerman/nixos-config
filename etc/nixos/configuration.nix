@@ -208,5 +208,5 @@
     # ];
   };
 
-  system.autoUpgrade.enable = true;
+  # system.autoUpgrade.enable = true;
 }
