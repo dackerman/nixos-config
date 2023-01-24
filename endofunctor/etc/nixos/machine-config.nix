@@ -16,29 +16,38 @@
   boot.initrd.luks.devices."luks-669b6436-9348-4a77-830f-2229f783b4fe".device = "/dev/disk/by-uuid/669b6436-9348-4a77-830f-2229f783b4fe";
   boot.initrd.luks.devices."luks-669b6436-9348-4a77-830f-2229f783b4fe".keyFile = "/crypto_keyfile.bin";
 
-  networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
-  time.timeZone = "America/Los_Angeles";
-
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.utf8";
 
-  #fileSystems."/mnt/cross-os-data" =
-  #  { device = "/dev/disk/by-label/CrossOSData";
-  #    fsType = "ntfs";
-  #    options = ["rw" "uid=1000"];
-  #  };
+  fileSystems."/mnt/cross-os-data" =
+    { device = "/dev/disk/by-label/CrossOSData";
+      fsType = "ntfs";
+      options = ["rw" "uid=1000"];
+    };
 
   services.xserver = {
     xkbVariant = "";
     dpi = 96;
     videoDrivers = [ "nvidia" ];
   };
+
+  # Try to fix issue of ethernet crapping out overnight. Hypothesis
+  # is that power saving mode is causing it to crash.
+  # See https://www.reddit.com/r/buildapc/comments/xypn1m/network_card_intel_ethernet_controller_i225v_igc/
+  boot.kernelParams = [
+    "pcie_port_pm=off"
+    "pcie_aspm.policy=performance"
+  ];
+
+
+  # hardware.nvidia.modesetting.enable = true;
+  # hardware.opengl.enable = true;
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.latest;
 
   networking = {
     hostName = "endofunctor";
@@ -58,7 +67,7 @@
     GDK_DPI_SCALE = "1";
     _JAVA_OPTIONS = "-Dsun.java2d.uiScale=1";
   };
-  
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
