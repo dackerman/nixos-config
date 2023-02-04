@@ -100,6 +100,7 @@
     jdk                       # Running/compiling Java programs
     blender
     obsidian                  # Second brain
+    dbeaver                   # SQL client
   ];
 
   services.tailscale.enable = true;
@@ -193,10 +194,10 @@
     };
   };
 
-  # virtualisation.docker = {
-  #   enable = true;
-  #   storageDriver = "devicemapper";
-  # };
+  virtualisation.docker = {
+    enable = true;
+    storageDriver = "devicemapper";
+  };
 
   users.users.david = {
     isNormalUser = true;
