@@ -98,8 +98,8 @@
     notmuch                   # process email
     rclone                    # Google Drive syncing utility
     jdk                       # Running/compiling Java programs
-    blender
-    obsidian                  # Second brain
+    # blender
+    # obsidian                  # Second brain
     dbeaver                   # SQL client
   ];
 
