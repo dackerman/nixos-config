@@ -80,9 +80,10 @@
     nodejs
     yarn
     clojure
-    # android-studio
+    neil                      # clojure build/dep tool
     leiningen
     clj-kondo                 # clojure linting support in editor
+    zeal                      # offline developer documentation
 
     # Applications
     signal-desktop            # chat application
