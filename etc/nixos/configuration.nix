@@ -71,7 +71,7 @@
     multimarkdown             # view markdown from emacs
     unzip
     protontricks              # for running windows games through steam
-    weather
+    keychain                  # for managing SSH keys https://wiki.archlinux.org/title/SSH_keys#SSH_agents
 
     # Programming and editing
     emacs
