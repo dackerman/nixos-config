@@ -99,7 +99,7 @@ data Application = Application
 signalApp = Application (className =? "Signal") "signal-desktop"
 emacsApp = Application (className =? "Emacs") "emacsclient -c"
 terminalApp = Application (className =? "Terminator") "terminator"
-chromeApp = Application (className =? "Google-chrome") "google-chrome-stable"
+chromeApp = Application (className =? "Google-chrome") "chrome"
 weatherApp = Application (className =? "Org.gnome.Weather") "gnome-weather"
 calculatorApp = Application (className =? "gnome-calculator") "gnome-calculator"
 
