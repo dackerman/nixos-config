@@ -84,6 +84,7 @@
     leiningen
     clj-kondo                 # clojure linting support in editor
     zeal                      # offline developer documentation
+    clojure-lsp
 
     # Applications
     signal-desktop            # chat application
