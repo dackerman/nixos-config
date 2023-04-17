@@ -85,6 +85,7 @@
     clj-kondo                 # clojure linting support in editor
     zeal                      # offline developer documentation
     clojure-lsp
+    babashka
 
     # Applications
     signal-desktop            # chat application
