@@ -72,6 +72,8 @@
     unzip
     protontricks              # for running windows games through steam
     keychain                  # for managing SSH keys https://wiki.archlinux.org/title/SSH_keys#SSH_agents
+    htop
+    btop
 
     # Programming and editing
     emacs
@@ -79,6 +81,7 @@
     tree
     nodejs
     yarn
+    sbcl
     clojure
     neil                      # clojure build/dep tool
     leiningen
