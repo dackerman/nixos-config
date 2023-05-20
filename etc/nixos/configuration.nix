@@ -128,7 +128,10 @@
 
   services.emacs.enable = true;
 
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings.X11Forwarding = true;
+  };
 
   services.printing = {
     enable = true;

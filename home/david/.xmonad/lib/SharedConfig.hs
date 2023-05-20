@@ -105,7 +105,7 @@ calculatorApp = Application (className =? "gnome-calculator") "gnome-calculator"
 
 sharedKeyMap customModMask =
   [ ((customModMask, xK_b), sendMessage ToggleStruts)
-  , ((customModMask .|. shiftMask, xK_v), spawn "killall '.vlc-wrapped'")
+  , ((customModMask .|. shiftMask, xK_v), spawn "killall -9 '.vlc-wrapped'")
   , ((customModMask .|. shiftMask, xK_s), spawn "/home/david/bin/shot")
   , ((ctrlKey .|. altKey, xK_e), spawnApp emacsApp)
   , ((ctrlKey .|. altKey, xK_c), spawnApp calculatorApp)
