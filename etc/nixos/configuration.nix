@@ -99,7 +99,7 @@
     vlc
     obs-studio                # screen recording
     ffmpeg                    # convert mp4 to gif
-    youtube-dl
+    yt-dlp
     isync                     # sync email
     notmuch                   # process email
     rclone                    # Google Drive syncing utility

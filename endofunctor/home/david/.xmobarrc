@@ -29,10 +29,10 @@ Config { font = "xft:Hack:size=12:regular:antialias=true"
                       ] 10
                     , Run Date "%a %b %_d %Y %I:%M %p" "date" 10
                     , Run StdinReader
-                    , Run CommandReader "/home/david/bin/sf-weather-high.sh" "whigh"
-                    , Run CommandReader "/home/david/bin/sf-weather-low.sh" "wlow"
+--                    , Run CommandReader "/home/david/bin/sf-weather-high.sh" "whigh"
+--                    , Run CommandReader "/home/david/bin/sf-weather-low.sh" "wlow"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %StdinReader% }{ %default:Master% | %multicpu% | %memory% | %eno1%%wlp8s0% | <fc=#ee9a00>%date%</fc> | %KSFO% (%whigh%/%wlow%)"
+       , template = " %StdinReader% }{ %default:Master% | %multicpu% | %memory% | %eno1%%wlp8s0% | <fc=#ee9a00>%date%</fc>" -- | %KSFO% (%whigh%/%wlow%)"
        }
