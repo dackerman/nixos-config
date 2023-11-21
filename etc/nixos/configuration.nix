@@ -25,7 +25,7 @@
     # };
   };
 
-  time.timeZone = "America/Los_Angeles";
+  time.timeZone = "America/New_York";
 
   networking.firewall = {
     enable = true;
@@ -95,6 +95,7 @@
     google-chrome
     firefox
     gimp
+    krita
     inkscape
     vlc
     obs-studio                # screen recording
@@ -104,6 +105,7 @@
     notmuch                   # process email
     rclone                    # Google Drive syncing utility
     jdk                       # Running/compiling Java programs
+    jetbrains.idea-community
     # blender
     # obsidian                  # Second brain
     dbeaver                   # SQL client
@@ -121,7 +123,7 @@
     enableSSHSupport = true;
   };
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     monoid
     hack-font
   ];
