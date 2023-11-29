@@ -89,6 +89,7 @@
     zeal                      # offline developer documentation
     clojure-lsp
     babashka
+    vscode
 
     # Applications
     signal-desktop            # chat application
@@ -110,6 +111,11 @@
     # obsidian                  # Second brain
     dbeaver                   # SQL client
   ];
+
+  services.autorandr = {
+    enable = true;
+  };
+
 
   services.tailscale.enable = true;
   networking.firewall.checkReversePath = "loose";
