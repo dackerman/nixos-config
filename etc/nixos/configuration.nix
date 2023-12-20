@@ -116,6 +116,7 @@
     # blender
     # obsidian                  # Second brain
     dbeaver                   # SQL client
+    zoom-us
   ];
 
   services.autorandr = {
