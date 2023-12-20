@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports =
@@ -37,6 +37,12 @@
   };
 
   networking.useDHCP = false;
+
+  # Disable NetworkManager-wait-online because it doesn't restart properly
+  # after a nixos-rebuild. Seems like some sort of a bug. See report here:
+  # https://github.com/NixOS/nixpkgs/issues/180175
+  systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
+  systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
   programs.bash = {
     enableCompletion = true;
