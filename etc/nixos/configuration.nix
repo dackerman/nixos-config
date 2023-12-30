@@ -33,7 +33,6 @@
 
   nixpkgs.config = {
     allowUnfree = true;
-    # pulseaudio = true;
 
     # packageOverrides = pkgs: {
     #   git = pkgs.git.override { guiSupport = true; };
@@ -81,7 +80,6 @@
     stalonetray               # system tray for xmobar
     pasystray                 # system tray icon for pulseaudio
     pavucontrol               # tweaking pulseaudio settings
-    pamixer                   # CLI tool for managing pulseaudio
     scrot                     # take screenshots
     xclip                     # send to clipboard from terminal
     veracrypt                 # encrypted drives and files
@@ -136,11 +134,6 @@
     ollama
   ];
 
-  services.autorandr = {
-    enable = true;
-  };
-
-
   services.tailscale.enable = true;
   networking.firewall.checkReversePath = "loose";
 
@@ -169,7 +162,7 @@
   services.printing = {
     enable = true;
     drivers = [
-      # pkgs.gutenprint
+      pkgs.gutenprint
       # pkgs.brgenml1lpr
       # pkgs.brgenml1cupswrapper
       pkgs.mfcj470dw-cupswrapper
@@ -178,7 +171,8 @@
   # networking printing
   services.avahi = {
     enable = true;
-    nssmdns4 = true;
+    nssmdns = true;
+    openFirewall = true;
   };
 
   # hardware.opengl.driSupport32Bit = true;

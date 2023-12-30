@@ -22,9 +22,7 @@ main = do
       entertainmentWorkspace = "6:entertainment"
       musicWorkspace         = "7:music"
 
-      startupPrograms = [(signalApp, healthWorkspace),
-                         (emacsApp, codeWorkspace),
-                         (chromeApp, codeWorkspace)]
+      startupPrograms = [(signalApp, healthWorkspace)]
 
       mediaKeys = [ ((0, 0x1008FF11), spawn "amixer -q sset Master 2%-"),
                     ((0, 0x1008FF13), spawn "amixer -q sset Master 2%+"),

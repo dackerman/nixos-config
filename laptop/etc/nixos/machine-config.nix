@@ -9,7 +9,7 @@
   };
 
   # Backlight support
-   programs.light.enable = true;
+  programs.light.enable = true;
   services.actkbd = {
     enable = true;
     bindings = [ # Make brightness keys work
@@ -19,6 +19,7 @@
   };
 
   hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
   # Use the systemd-boot EFI boot loader.
@@ -31,6 +32,10 @@
   boot.kernelPackages = pkgs.linuxPackages_5_15;
   boot.kernelParams = [ "net.ifnames=0" ];
 
+  # Handling multi-monitor
+  services.autorandr = {
+    enable = true;
+  };
 
   # Program is NMTUI
   networking = {
