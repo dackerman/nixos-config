@@ -3,7 +3,7 @@
 {
   # Boot into UEFI mode
   boot.loader.grub.enable = false;
-  boot.loader.efi.efiSysMountPoint = "/boot";
+  boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.loader.systemd-boot.enable = true;
 
   boot.supportedFilesystems = ["ntfs"];
@@ -36,8 +36,7 @@
     hostName = "homoiconicity";
     hostId = "04f2fa20";
 
-    interfaces.enp0s31f6.useDHCP = true;
-    interfaces.enp7s0.useDHCP = true;
+    interfaces.eno1.useDHCP = true;
   };
 
   hardware.bluetooth.enable = true;
@@ -54,4 +53,5 @@
     _JAVA_OPTIONS = "-Dsun.java2d.uiScale=1";
   };
 
+  system.stateVersion = "24.05";
 }

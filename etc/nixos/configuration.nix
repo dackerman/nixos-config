@@ -1,11 +1,26 @@
 { config, pkgs, lib, ... }:
 
-{
+  let no-segfault-vlc = pkgs.vlc.override {
+        ffmpeg = pkgs.ffmpeg.overrideAttrs (self: prev: {
+          patches = prev.patches ++ [
+            (pkgs.fetchpatch {
+              url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/e9c93009fc34ca9dfcf0c6f2ed90ef1df298abf7";
+              hash = "sha256-aE9WN7a2INbss7oRys+AC9d9+yBzlJdeBRcwSDpG0Qw=";
+            })
+          ];
+        });
+      };
+  in {
   imports =
     [
       /etc/nixos/hardware-configuration.nix
       /etc/nixos/machine-config.nix
     ];
+
+  nix.package = pkgs.nixUnstable;
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 
   # nix = {
   #   buildCores = 0;
@@ -104,7 +119,7 @@
     gimp
     krita
     inkscape
-    vlc
+    no-segfault-vlc
     obs-studio                # screen recording
     ffmpeg                    # convert mp4 to gif
     yt-dlp
@@ -160,7 +175,7 @@
   # networking printing
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
   };
 
   # hardware.opengl.driSupport32Bit = true;
@@ -171,7 +186,7 @@
 
   services.xserver = {
     enable = true;
-    layout = "us";
+    xkb.layout = "us";
 
     desktopManager = {
       gnome.enable = true; # Gnome Desktop
