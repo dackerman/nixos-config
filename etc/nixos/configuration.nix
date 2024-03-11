@@ -119,7 +119,7 @@
     gimp
     krita
     inkscape
-    no-segfault-vlc
+    vlc # no-segfault-vlc
     obs-studio                # screen recording
     ffmpeg                    # convert mp4 to gif
     yt-dlp

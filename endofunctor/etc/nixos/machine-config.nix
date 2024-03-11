@@ -42,6 +42,13 @@
     '';
   };
 
+  services.cron = {
+    enable = true;
+    systemCronJobs = [
+      "5 * * * *    david    /home/david/code/fastmail-share-fix/run_mail_fix.sh nodryrun >> /home/david/code/fastmail-share-fix/log.txt"
+    ];
+  };
+
   # Try to fix issue of ethernet crapping out overnight. Hypothesis
   # is that power saving mode is causing it to crash.
   # See https://www.reddit.com/r/buildapc/comments/xypn1m/network_card_intel_ethernet_controller_i225v_igc/
