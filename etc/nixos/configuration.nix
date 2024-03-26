@@ -47,7 +47,8 @@
     allowedTCPPorts = [
       3000 # dev http server
       9630 # websocket
-      19000 # expo.dev metro port
+      # 19000 # expo.dev metro port
+      11434 # ollama
     ];
   };
 
@@ -132,6 +133,7 @@
     # obsidian                  # Second brain
     dbeaver                   # SQL client
     zoom-us
+    ollama
   ];
 
   services.autorandr = {
@@ -145,9 +147,10 @@
   programs.steam.enable = true;
 
   services.pcscd.enable = true;
+
   programs.gnupg.agent = {
     enable = true;
-    pinentryFlavor = "curses";
+    pinentryPackage = pkgs.pinentry-curses;
     enableSSHSupport = true;
   };
 
