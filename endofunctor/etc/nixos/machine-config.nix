@@ -31,7 +31,7 @@
     };
 
   services.xserver = {
-    xkbVariant = "";
+    xkb.variant = "";
     dpi = 96;
     videoDrivers = [ "nvidia" ];
 
@@ -45,7 +45,7 @@
   services.cron = {
     enable = true;
     systemCronJobs = [
-      "5 * * * *    david    /home/david/code/fastmail-share-fix/run_mail_fix.sh nodryrun >> /home/david/code/fastmail-share-fix/log.txt"
+      "*/30 * * * *    david    /home/david/code/fastmail-share-fix/cron.sh"
     ];
   };
 

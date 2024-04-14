@@ -146,6 +146,10 @@
     enable = true;
     pinentryPackage = pkgs.pinentry-curses;
     enableSSHSupport = true;
+    settings = {
+      default-cache-ttl = 31536000;
+      max-cache-ttl = 31536000;
+    };
   };
 
   fonts.packages = with pkgs; [
