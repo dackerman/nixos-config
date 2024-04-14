@@ -23,10 +23,7 @@ main = do
       entertainmentWorkspace = "6:entertainment"
       musicWorkspace         = "7:music"
 
-  let startupPrograms = [(signalApp, healthWorkspace),
-                         (terminalApp, termWorkspace),
-                         (chromeApp, codeWorkspace),
-                         (emacsApp, codeWorkspace)]
+  let startupPrograms = [(signalApp, healthWorkspace)]
 
   xmonad $ (
     baseConfig { workspaces = [codeWorkspace, termWorkspace, webWorkspace, "4", healthWorkspace, entertainmentWorkspace, musicWorkspace, "8", "9"]
