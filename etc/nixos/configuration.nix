@@ -17,10 +17,10 @@
       /etc/nixos/machine-config.nix
     ];
 
-  nix.package = pkgs.nixUnstable;
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
+  nix.package = pkgs.nixVersions.latest;
+  # nix.extraOptions = ''
+  #   experimental-features = nix-command flakes
+  # '';
 
   # nix = {
   #   buildCores = 0;
@@ -111,6 +111,7 @@
     clojure-lsp
     babashka
     vscode
+    nodePackages.prettier
 
     # Applications
     signal-desktop            # chat application
@@ -130,9 +131,9 @@
     jetbrains.idea-community
     # blender
     # obsidian                  # Second brain
-    dbeaver                   # SQL client
+    dbeaver-bin                 # SQL client
     zoom-us
-    ollama
+    (ollama.override { acceleration = "cuda"; })
   ];
 
   services.tailscale.enable = true;
@@ -186,6 +187,8 @@
     enable = true;
   };
 
+  services.displayManager.defaultSession = "none+xmonad";
+
   services.xserver = {
     enable = true;
     xkb.layout = "us";
@@ -197,17 +200,16 @@
     };
 
     displayManager = {
-      defaultSession = "none+xmonad";
 
       lightdm = {
         enable = true;
       };
 
       sessionCommands = ''
-        xset -dpms  # Disable Energy Star, as we are going to suspend anyway and it may hide "success" on that
-        xset s blank # `noblank` may be useful for debugging
-        xset s 300 # seconds
-        ${pkgs.lightlocker}/bin/light-locker --idle-hint &
+        # xset -dpms  # Disable Energy Star, as we are going to suspend anyway and it may hide "success" on that
+        # xset s blank # `noblank` may be useful for debugging
+        # xset s 300 # seconds
+        # ${pkgs.lightlocker}/bin/light-locker --idle-hint &
 
         source ~/.profile
         stalonetray &
