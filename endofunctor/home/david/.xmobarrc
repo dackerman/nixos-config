@@ -2,8 +2,7 @@ Config { font = "xft:Hack:size=12:regular:antialias=true"
        , bgColor = "black"
        , fgColor = "grey"
        , position = Top
-       , commands = [ Run Weather "KSFO" ["-t","<tempF>°","-L","45","-H","80","--normal","green","--high","red","--low","lightblue"] 36000
-                    , Run MultiCpu [
+       , commands = [ Run MultiCpu [
                           "-t", "<autovbar>"
                         , "-L", "40"
                         , "-H", "80"
@@ -29,10 +28,8 @@ Config { font = "xft:Hack:size=12:regular:antialias=true"
                       ] 10
                     , Run Date "%a %b %_d %Y %I:%M %p" "date" 10
                     , Run StdinReader
---                    , Run CommandReader "/home/david/bin/sf-weather-high.sh" "whigh"
---                    , Run CommandReader "/home/david/bin/sf-weather-low.sh" "wlow"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %StdinReader% }{ %default:Master% | %multicpu% | %memory% | %eno1%%wlp8s0% | <fc=#ee9a00>%date%</fc>" -- | %KSFO% (%whigh%/%wlow%)"
+       , template = " %StdinReader% }{ %default:Master% | %multicpu% | %memory% | %eno1%%wlp8s0% | <fc=#31EB00>%date%</fc>"
        }

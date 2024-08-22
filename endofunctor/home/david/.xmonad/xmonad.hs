@@ -15,21 +15,30 @@ main = do
 
   let baseConfig = sharedConfig xmproc
 
-      -- Define special workspaces here
-      codeWorkspace          = "1:code"
-      termWorkspace          = "2:term"
-      webWorkspace           = "3:web"
-      healthWorkspace        = "5:health"
-      entertainmentWorkspace = "6:entertainment"
-      musicWorkspace         = "7:music"
+      workspaces =
+        [ "1:code"
+        , "2:term"
+        , "3:web"
+        , "4"
+        , "5:health"
+        , "6:entertainment"
+        , "7:music"
+        , "8"
+        , "9"
+        ]
 
-  let startupPrograms = [(signalApp, healthWorkspace)]
+      workspace n
+        | n > 0 && n <= length workspaces = workspaces !! (n - 1)
+        | otherwise = show n
+
+  let startupPrograms = [(signalApp, workspace 5)]
 
   xmonad $ (
-    baseConfig { workspaces = [codeWorkspace, termWorkspace, webWorkspace, "4", healthWorkspace, entertainmentWorkspace, musicWorkspace, "8", "9"]
-               , manageHook = manageHook baseConfig
-               , startupHook = startupProgramsHook startupPrograms <> startupHook baseConfig
-               , handleEventHook = moveSignalToCurrentWindowHook
-               , modMask = myModMask
-               } `additionalKeys` (sharedKeyMap myModMask)
+    baseConfig
+      { workspaces = workspaces
+      , manageHook = manageHook baseConfig
+      , startupHook = startupProgramsHook startupPrograms <> startupHook baseConfig
+      , handleEventHook = moveSignalToCurrentWindowHook
+      , modMask = myModMask
+      } `additionalKeys` (sharedKeyMap myModMask)
     )
