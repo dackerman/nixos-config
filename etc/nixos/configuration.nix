@@ -184,7 +184,7 @@
   # hardware.opengl.driSupport32Bit = true;
 
   hardware.pulseaudio = {
-    enable = true;
+    enable= false;
   };
 
   services.displayManager.defaultSession = "none+xmonad";

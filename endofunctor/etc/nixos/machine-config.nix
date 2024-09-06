@@ -58,9 +58,14 @@
   ];
 
 
-  # hardware.nvidia.modesetting.enable = true;
-  # hardware.opengl.enable = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.latest;
+  hardware.graphics.enable = true;
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
 
   networking = {
     hostName = "endofunctor";
