@@ -60,7 +60,7 @@
   systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
   programs.bash = {
-    enableCompletion = true;
+    completion.enable = true;
     # interactiveShellInit = "source ~/bash-scripts/z.sh";
   };
 
@@ -73,7 +73,7 @@
     dmenu                     # open applications
     terminator                # terminal emulator
     xmobar                    # top bar for xmonad
-    gnome.nautilus            # file finder
+    nautilus                  # file finder
     pv                        # terminal-based progress viewer
     feh                       # simple X-server image viewer
     twmn                      # X-server notifications
