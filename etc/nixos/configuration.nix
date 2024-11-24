@@ -250,13 +250,13 @@
 
   virtualisation.docker = {
     enable = true;
-    storageDriver = "devicemapper";
+    storageDriver = "overlay2";
   };
 
   users.users.david = {
     isNormalUser = true;
     description = "David Ackerman";
-    extraGroups = [ "networkmanager" "wheel" "audio" ];
+    extraGroups = [ "networkmanager" "wheel" "audio" "docker" ];
     # openssh.authorizedKeys.keyFiles = [
     #   "/home/david/.ssh/id_rsa.pub"
     #   "/home/david/.ssh/laptop_rsa.pub"
