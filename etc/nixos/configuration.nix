@@ -117,6 +117,7 @@
     signal-desktop            # chat application
     google-chrome
     firefox
+    brave
     gimp
     krita
     inkscape
