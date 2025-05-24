@@ -33,10 +33,6 @@
 
   nixpkgs.config = {
     allowUnfree = true;
-
-    # packageOverrides = pkgs: {
-    #   git = pkgs.git.override { guiSupport = true; };
-    # };
   };
 
   time.timeZone = "America/New_York";
@@ -44,8 +40,9 @@
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [
-      3000 # dev http server
-      9630 # websocket
+      22    # SSH
+      3000  # dev http server
+      9630  # websocket
       # 19000 # expo.dev metro port
       11434 # ollama
     ];
@@ -76,7 +73,8 @@
     nautilus                  # file finder
     pv                        # terminal-based progress viewer
     feh                       # simple X-server image viewer
-    twmn                      # X-server notifications
+    dunst                      # X-server notifications
+    libnotify
     stalonetray               # system tray for xmobar
     pasystray                 # system tray icon for pulseaudio
     pavucontrol               # tweaking pulseaudio settings
@@ -95,9 +93,11 @@
     htop
     btop
     lightlocker
+    rlwrap
 
     # Programming and editing
     emacs
+    code-cursor
     git
     tree
     nodejs
@@ -112,6 +112,11 @@
     babashka
     vscode
     nodePackages.prettier
+    fzf
+    go
+    gopls                     # language server for Go
+    tmux                      # terminal multiplexer
+    zellij                    # tmux-like app
 
     # Applications
     signal-desktop            # chat application
@@ -157,13 +162,19 @@
   fonts.packages = with pkgs; [
     monoid
     hack-font
+    nerd-fonts.fira-code
   ];
 
   services.emacs.enable = true;
 
   services.openssh = {
     enable = true;
-    settings.X11Forwarding = true;
+    settings = {
+      X11Forwarding = true;
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+      PubkeyAuthentication = true;
+    };
   };
 
   services.printing = {
@@ -237,17 +248,17 @@
   '';
 
   # Notification service
-  systemd.user.services.twmnd = {
-    enable = true;
-    description = "Desktop notification program twmn";
-    wantedBy = ["default.target"];
-    after = ["network.target"];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "/run/current-system/sw/bin/twmnd";
-      Restart = "always";
-    };
-  };
+  # systemd.user.services.twmnd = {
+  #   enable = true;
+  #   description = "Desktop notification program twmn";
+  #   wantedBy = ["default.target"];
+  #   after = ["network.target"];
+  #   serviceConfig = {
+  #     Type = "simple";
+  #     ExecStart = "/run/current-system/sw/bin/twmnd";
+  #     Restart = "always";
+  #   };
+  # };
 
   virtualisation.docker = {
     enable = true;

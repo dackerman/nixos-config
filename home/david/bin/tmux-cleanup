@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# Clean up empty tmux windows and sessions
+# Run this periodically or on shell exit
+
+cleanup_empty_windows() {
+  # Get list of windows with no processes (just shell)
+  tmux list-windows -t main -F "#{window_index} #{window_panes}" 2>/dev/null | while read window_id pane_count; do
+    if [ "$pane_count" = "1" ]; then
+      # Check if the single pane is just running a shell
+      pane_cmd=$(tmux display-message -t "main:$window_id" -p "#{pane_current_command}" 2>/dev/null)
+      if [[ "$pane_cmd" =~ ^(bash|zsh|sh)$ ]]; then
+        # Don't kill the last window
+        window_count=$(tmux list-windows -t main 2>/dev/null | wc -l)
+        if [ "$window_count" -gt 1 ]; then
+          tmux kill-window -t "main:$window_id" 2>/dev/null
+        fi
+      fi
+    fi
+  done
+}
+
+cleanup_session_if_empty() {
+  # If main session has only one window with just a shell, kill it
+  if tmux has-session -t main 2>/dev/null; then
+    window_count=$(tmux list-windows -t main 2>/dev/null | wc -l)
+    if [ "$window_count" = "1" ]; then
+      pane_cmd=$(tmux display-message -t main -p "#{pane_current_command}" 2>/dev/null)
+      if [[ "$pane_cmd" =~ ^(bash|zsh|sh)$ ]]; then
+        tmux kill-session -t main 2>/dev/null
+      fi
+    fi
+  fi
+}
+
+# Run cleanup
+if [ "$1" = "--aggressive" ]; then
+  cleanup_empty_windows
+  cleanup_session_if_empty
+else
+  cleanup_empty_windows
+fi
