@@ -65,6 +65,8 @@
     EDITOR = "emacsclient -c";
   };
 
+  programs.fish.enable = true;
+
   environment.systemPackages = with pkgs; [
     # System tools
     dmenu                     # open applications
@@ -172,7 +174,7 @@
     settings = {
       X11Forwarding = true;
       PermitRootLogin = "no";
-      PasswordAuthentication = false;
+      PasswordAuthentication = true;
       PubkeyAuthentication = true;
     };
   };
@@ -268,6 +270,7 @@
   users.users.david = {
     isNormalUser = true;
     description = "David Ackerman";
+    shell = pkgs.fish;
     extraGroups = [ "networkmanager" "wheel" "audio" "docker" ];
     # openssh.authorizedKeys.keyFiles = [
     #   "/home/david/.ssh/id_rsa.pub"

@@ -4,7 +4,12 @@
 # Prevents infinite loops by checking for existing tmux environment
 
 if command -v tmux &> /dev/null && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  # Create a unique session name using process ID
-  session_name="main-$$"
-  exec tmux new-session -s "$session_name"
+  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    # SSH session: attach to existing "main" session or create if it doesn't exist
+    exec tmux new-session -A -s "main"
+  else
+    # Local session: create a unique session name using process ID
+    session_name="main-$$"
+    exec tmux new-session -s "$session_name"
+  fi
 fi
