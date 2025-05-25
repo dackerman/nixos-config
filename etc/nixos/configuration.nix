@@ -245,8 +245,8 @@
 
   systemd.targets.hybrid-sleep.enable = true;
   services.logind.extraConfig = ''
-    IdleAction=hybrid-sleep
-    IdleActionSec=20s
+    IdleAction=ignore
+    IdleActionSec=1800s
   '';
 
   # Notification service
