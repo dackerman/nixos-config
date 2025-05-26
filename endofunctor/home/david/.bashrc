@@ -35,11 +35,4 @@ aishell() {
   fi
 }
 
-# Auto-start tmux
-~/bin/auto-tmux
-
-# Clean up tmux on shell exit
-trap '~/bin/tmux-cleanup' EXIT
-
-# Created by `pipx` on 2025-04-15 03:12:59
 export PATH="$PATH:/home/david/.local/bin"
