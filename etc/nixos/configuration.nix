@@ -35,6 +35,14 @@
     allowUnfree = true;
   };
 
+  # Enable nix-ld to run dynamically linked executables
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    openssl
+  ];
+
   time.timeZone = "America/New_York";
 
   networking.firewall = {
@@ -96,6 +104,8 @@
     btop
     lightlocker
     rlwrap
+    gh
+    google-cloud-sdk
 
     # Programming and editing
     emacs
