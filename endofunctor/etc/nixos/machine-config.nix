@@ -55,7 +55,16 @@
   boot.kernelParams = [
     "pcie_port_pm=off"
     "pcie_aspm.policy=performance"
+    "nvidia-drm.modeset=1"
+    "nvidia-drm.fbdev=1"
   ];
+
+  # NVIDIA module options to fix HDMI FRL issues
+  boot.extraModprobeConfig = ''
+    options nvidia NVreg_EnableHDMIFRL=0
+    # Workaround for blank screen with movable cursor on resume
+    options nvidia_modeset vblank_sem_control=0
+  '';
 
 
   hardware.graphics.enable = true;
@@ -65,6 +74,10 @@
     open = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
+    
+    # Disable power management to avoid black screen on resume
+    # per https://nixos.wiki/wiki/Nvidia
+    powerManagement.enable = false;
   };
 
   networking = {
