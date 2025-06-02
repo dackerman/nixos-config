@@ -41,6 +41,33 @@
     stdenv.cc.cc
     zlib
     openssl
+    fuse
+    dbus
+    
+    # Essential Electron/Cursor dependencies
+    alsa-lib
+    at-spi2-atk
+    cairo
+    cups
+    expat
+    fontconfig
+    freetype
+    glib
+    gtk3
+    libdrm
+    libgbm
+    libGL
+    libxkbcommon
+    nspr
+    nss
+    pango
+    xorg.libX11
+    xorg.libXcomposite
+    xorg.libXdamage
+    xorg.libXext
+    xorg.libXfixes
+    xorg.libXrandr
+    xorg.libxcb
   ];
 
   time.timeZone = "America/New_York";
@@ -109,7 +136,7 @@
 
     # Programming and editing
     emacs
-    code-cursor
+    # code-cursor  # Moved to user profile for independent updates
     git
     tree
     nodejs
