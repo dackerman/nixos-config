@@ -40,5 +40,9 @@ main = do
       , startupHook = startupProgramsHook startupPrograms <> startupHook baseConfig
       , handleEventHook = moveSignalToCurrentWindowHook
       , modMask = myModMask
-      } `additionalKeys` (sharedKeyMap myModMask)
+      } `additionalKeys` (sharedKeyMap myModMask ++ myAdditionalKeys)
     )
+
+myAdditionalKeys =
+  [ ((myModMask .|. shiftMask, xK_m), spawn "/home/david/bin/wake-up-monitor.sh")
+  ]

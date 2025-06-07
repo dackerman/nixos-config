@@ -42,6 +42,13 @@
     '';
   };
 
+  # Configure LightDM to enable both monitors at login
+  services.xserver.displayManager.lightdm = {
+    greeters.gtk.extraConfig = ''
+      display-setup-script=/run/current-system/sw/bin/xrandr --auto
+    '';
+  };
+
   services.cron = {
     enable = true;
     systemCronJobs = [
