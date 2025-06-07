@@ -18,18 +18,18 @@
     ];
 
   nix.package = pkgs.nixVersions.latest;
-  # nix.extraOptions = ''
-  #   experimental-features = nix-command flakes
-  # '';
-
-  # nix = {
-  #   buildCores = 0;
-  #   trustedBinaryCaches = [
-  #     "https://cache.nixos.org/"
-  #     # "https://ryantrinkle.com:5443"
-  #     "http://hydra.nixos.org"
-  #   ];
-  # };
+  
+  nix.settings = {
+    substituters = [
+      "https://cache.nixos.org/"
+      "http://endofunctor:5000"
+    ];
+    trusted-substituters = [
+      "http://endofunctor:5000"
+    ];
+    # This will be filled in after generating the key on endofunctor
+    # trusted-public-keys = [ "endofunctor-cache:..." ];
+  };
 
   nixpkgs.config = {
     allowUnfree = true;

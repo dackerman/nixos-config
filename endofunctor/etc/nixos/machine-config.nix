@@ -88,6 +88,16 @@
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
+  # Binary cache server
+  services.nix-serve = {
+    enable = true;
+    port = 5000;
+    secretKeyFile = "/var/cache-priv-key.pem";
+  };
+
+  # Open firewall for nix-serve
+  networking.firewall.allowedTCPPorts = [ 5000 ];
+
   # try to fix bluetooth issue
   # see https://nixos.wiki/wiki/Bluetooth
   hardware.enableAllFirmware = true;
