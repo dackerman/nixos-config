@@ -24,3 +24,6 @@
 - Keep commits focused on single features or fixes
 - Test configuration changes before committing
 - Use clear, descriptive commit messages
+
+## Symlink Management
+- `./link-files.sh` only needs to be run if _new_ files are added that need to be symlinked to a given computer. Once they are symlinked, they can be edited in this repository and they'll be automatically updated in the proper location.
