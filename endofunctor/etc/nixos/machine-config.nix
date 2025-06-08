@@ -22,7 +22,7 @@
   networking.networkmanager.enable = true;
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.utf8";
+  i18n.defaultLocale = "en_US.UTF-8";
 
   fileSystems."/mnt/cross-os-data" =
     { device = "/dev/disk/by-label/CrossOSData";
