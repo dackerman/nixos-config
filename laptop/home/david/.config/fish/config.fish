@@ -27,3 +27,4 @@ fish_add_path /home/david/.local/bin
 
 # Aliases for convenience (fish uses abbreviations instead)
 abbr gs 'git status'
+abbr s 'kitten ssh'
