@@ -28,5 +28,7 @@ fish_add_path /home/david/.local/bin
 # Aliases for convenience (fish uses abbreviations instead)
 abbr gs 'git status'
 
-# Auto-start tmux
-~/bin/auto-tmux
+# Auto-start tmux (skip for SSH sessions)
+if not set -q SSH_CLIENT; and not set -q SSH_TTY
+    ~/bin/auto-tmux
+end
