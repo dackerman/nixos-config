@@ -98,7 +98,7 @@ data Application = Application
 
 signalApp = Application (className =? "Signal") "signal-desktop"
 emacsApp = Application (className =? "Emacs") "emacsclient -c"
-terminalApp = Application (className =? "Terminator") "terminator"
+terminalApp = Application (className =? "kitty") "kitty"
 chromeApp = Application (className =? "Google-chrome") "chrome"
 weatherApp = Application (className =? "Org.gnome.Weather") "gnome-weather"
 calculatorApp = Application (className =? "gnome-calculator") "gnome-calculator"
@@ -132,7 +132,7 @@ sharedConfig xmobarProcess = docks $ def
     , startupHook = setWMName "LG3D"
     , normalBorderColor = "#000000"
     , focusedBorderColor = "#cccccc"
-    , terminal = "terminator"
+    , terminal = "kitty"
     }
 
 startupProgramsHook :: [(Application, String)] -> X ()

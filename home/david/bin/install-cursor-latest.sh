@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 
 # Download latest Cursor AppImage directly to ~/bin
-echo "Downloading latest Cursor AppImage..."
-curl -L https://downloader.cursor.sh/linux/appImage/x64 -o ~/bin/cursor.AppImage
+echo "Getting download URL from Cursor API..."
+DOWNLOAD_URL=$(curl -s "https://www.cursor.com/api/download?platform=linux-x64&releaseTrack=stable" | jq -r '.downloadUrl')
+
+if [ -z "$DOWNLOAD_URL" ] || [ "$DOWNLOAD_URL" = "null" ]; then
+    echo "Error: Could not retrieve download URL"
+    exit 1
+fi
+
+echo "Downloading Cursor AppImage from: $DOWNLOAD_URL"
+curl -L "$DOWNLOAD_URL" -o ~/bin/cursor.AppImage
 
 # Make it executable
 chmod +x ~/bin/cursor.AppImage

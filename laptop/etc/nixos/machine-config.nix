@@ -70,13 +70,12 @@
   nix.settings = {
     substituters = [
       "https://cache.nixos.org/"
-      # "http://endofunctor:5000"
+      "http://endofunctor:5000"
     ];
     trusted-substituters = [
-      # "http://endofunctor:5000"
+      "http://endofunctor:5000"
     ];
-    # This will be filled in after generating the key on endofunctor
-    # trusted-public-keys = [ "endofunctor-cache:..." ];
+    trusted-public-keys = [ "endofunctor-cache:+rvLp8nQBCqsu1a/9eMlNfPhrELEhezXWF/UrdGoy5g=" ];
   };
 
   # Possible way to get bluetooth to work

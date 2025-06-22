@@ -31,7 +31,7 @@
     openssl
     fuse
     dbus
-    
+
     # Essential Electron/Cursor dependencies
     alsa-lib
     at-spi2-atk
@@ -98,6 +98,7 @@
     # System tools
     dmenu                     # open applications
     terminator                # terminal emulator
+    kitty                     # terminal emulator with OSC 52 support
     xmobar                    # top bar for xmonad
     nautilus                  # file finder
     pv                        # terminal-based progress viewer
@@ -107,6 +108,8 @@
     stalonetray               # system tray for xmobar
     pasystray                 # system tray icon for pulseaudio
     pavucontrol               # tweaking pulseaudio settings
+    alsa-utils                # provides amixer for volume control
+    pulseaudio                # provides pactl for pipewire compatibility
     scrot                     # take screenshots
     xclip                     # send to clipboard from terminal
     veracrypt                 # encrypted drives and files
@@ -229,6 +232,15 @@
 
   services.pulseaudio = {
     enable = false;
+  };
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
   };
 
   services.displayManager.defaultSession = "none+xmonad";
