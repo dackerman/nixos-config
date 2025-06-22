@@ -18,18 +18,6 @@
     ];
 
   nix.package = pkgs.nixVersions.latest;
-  
-  nix.settings = {
-    substituters = [
-      "https://cache.nixos.org/"
-      "http://endofunctor:5000"
-    ];
-    trusted-substituters = [
-      "http://endofunctor:5000"
-    ];
-    # This will be filled in after generating the key on endofunctor
-    # trusted-public-keys = [ "endofunctor-cache:..." ];
-  };
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -77,9 +65,13 @@
     allowedTCPPorts = [
       22    # SSH
       3000  # dev http server
+      8065  # Mattermost
       9630  # websocket
       # 19000 # expo.dev metro port
       11434 # ollama
+      8080  # weaviate
+      4173  # weaviate-gui frontend
+      3000  # weaviate-gui backend
     ];
   };
 
@@ -133,6 +125,7 @@
     rlwrap
     gh
     google-cloud-sdk
+    mosh                      # mobile shell for remote connections
 
     # Programming and editing
     emacs

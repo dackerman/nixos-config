@@ -55,6 +55,30 @@
     interfaces.wlan0.useDHCP = true;
   };
 
+  # Remote builder configuration
+  nix.buildMachines = [{
+    hostName = "endofunctor";
+    system = "x86_64-linux";
+    maxJobs = 4;
+    speedFactor = 2;
+    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    mandatoryFeatures = [ ];
+  }];
+  nix.distributedBuilds = true;
+
+  # Nix substituters configuration (only for laptop)
+  nix.settings = {
+    substituters = [
+      "https://cache.nixos.org/"
+      # "http://endofunctor:5000"
+    ];
+    trusted-substituters = [
+      # "http://endofunctor:5000"
+    ];
+    # This will be filled in after generating the key on endofunctor
+    # trusted-public-keys = [ "endofunctor-cache:..." ];
+  };
+
   # Possible way to get bluetooth to work
   # Pulled from https://community.frame.work/t/using-the-ax210-with-linux-on-the-framework-laptop/1844/47
   #
