@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 
-# Auto-start tmux with shared "main" session
+# Auto-start tmux with optional session name argument
 # Prevents infinite loops by checking for existing tmux environment
 
 if command -v tmux &> /dev/null && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    # SSH session: attach to existing "main" session or create if it doesn't exist
-    exec tmux new-session -A -s "main"
+  # Use provided session name or default based on connection type
+  if [ -n "$1" ]; then
+    session_name="$1"
+  elif [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    # SSH session: create new session with unique name
+    session_name="ssh-$$"
   else
     # Local session: create a unique session name using process ID
     session_name="main-$$"
-    exec tmux new-session -s "$session_name"
   fi
+  
+  exec tmux new-session -A -s "$session_name"
 fi
