@@ -1,2 +1,4 @@
 /result
 /README.html
+*.crt
+*.key
