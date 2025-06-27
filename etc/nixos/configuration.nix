@@ -65,6 +65,8 @@
     allowedTCPPorts = [
       22    # SSH
       3000  # dev http server
+      3001
+      5173  # AI family planner app
       8065  # Mattermost
       9630  # websocket
       # 19000 # expo.dev metro port
