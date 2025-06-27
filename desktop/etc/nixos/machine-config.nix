@@ -8,11 +8,11 @@
 
   boot.supportedFilesystems = ["ntfs"];
 
-  fileSystems."/mnt/cross-os-data" =
-    { device = "/dev/disk/by-label/CrossOSData";
-      fsType = "ntfs";
-      options = ["rw" "uid=1000"];
-    };
+  # fileSystems."/mnt/cross-os-data" =
+  #   { device = "/dev/disk/by-label/CrossOSData";
+  #     fsType = "ntfs";
+  #     options = ["rw" "uid=1000"];
+  #   };
 
   # Use rclone to sync notes with GoogleDrive
   # systemd.user.services.syncnotes = {
