@@ -14,7 +14,7 @@ Config { font = "xft:Hack:size=12:regular:antialias=true"
        , hideOnStart = False
        , iconRoot = "."
        , allDesktops = True
-       , overrideRedirect = True
+       , overrideRedirect = False
        , commands = [ Run StdinReader
                     , Run Network "wlan0" ["-L","0","-H","8000000",
                                            "--normal","green","--high","red"] 10

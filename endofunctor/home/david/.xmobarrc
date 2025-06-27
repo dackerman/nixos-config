@@ -2,6 +2,18 @@ Config { font = "xft:Hack:size=12:regular:antialias=true"
        , bgColor = "black"
        , fgColor = "grey"
        , position = Top
+       , lowerOnStart = True
+       , persistent = False
+       , allDesktops = True
+       , overrideRedirect = False
+       , hideOnStart = False
+       , pickBroadest = False
+       , borderColor = "black"
+       , border = TopB
+       , alpha = 255
+       , textOffset = -1
+       , iconOffset = -1
+       , iconRoot = "."
        , commands = [ Run MultiCpu [
                           "-t", "<autovbar>"
                         , "-L", "40"
