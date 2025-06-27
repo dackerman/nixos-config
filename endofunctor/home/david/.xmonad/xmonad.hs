@@ -9,7 +9,7 @@ import SharedConfig
 myModMask = windowsKey
 
 main = do
-  xmproc <- spawnPipe "xmobar"
+  xmproc <- spawnPipe "xmobar -v 2>> ~/.xmobar-debug.log"
 
   moveSignalToCurrentWindowHook <- watchForSignalNotifications
 
