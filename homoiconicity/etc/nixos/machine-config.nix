@@ -32,6 +32,8 @@
     videoDrivers = [ "nvidia" ];
   };
 
+  hardware.nvidia.open = false;
+
   networking = {
     hostName = "homoiconicity";
     hostId = "04f2fa20";
@@ -47,11 +49,34 @@
   # see https://nixos.wiki/wiki/Bluetooth
   hardware.enableAllFirmware = true;
 
+  # Remote builder configuration
+  nix.buildMachines = [{
+    hostName = "endofunctor";
+    system = "x86_64-linux";
+    maxJobs = 4;
+    speedFactor = 2;
+    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    mandatoryFeatures = [ ];
+  }];
+  nix.distributedBuilds = true;
+
+  # Nix substituters configuration
+  nix.settings = {
+    substituters = [
+      "https://cache.nixos.org/"
+      "http://endofunctor:5000"
+    ];
+    trusted-substituters = [
+      "http://endofunctor:5000"
+    ];
+    trusted-public-keys = [ "endofunctor-cache:+rvLp8nQBCqsu1a/9eMlNfPhrELEhezXWF/UrdGoy5g=" ];
+  };
+
   # Fix HiDPI settings for Gnome
   environment.variables = {
     GDK_SCALE = "1";
     GDK_DPI_SCALE = "1";
     _JAVA_OPTIONS = "-Dsun.java2d.uiScale=1";
   };
-
+  system.stateVersion = "22.05";
 }

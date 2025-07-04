@@ -2,7 +2,7 @@
 
 ## Build & System Commands
 - Update NixOS: `sudo nixos-rebuild switch`
-- Link files to system: `./link-files.sh <platform>` (platform = laptop|desktop|endofunctor)
+- Link files to system: `./link-files.sh [platform]` (defaults to hostname, or specify: laptop|homoiconicity|endofunctor)
 - Git shorthand: `gs` for git status
 - **Important Note**: Don't actually try to run sudo nixos-rebuild switch. Always prompt the user to do this (and any other sudo commands) themselves.
 - When running a sudo command, always use -A to invoke the GUI askpass
@@ -10,7 +10,7 @@
 ## Project Structure
 - `/etc/nixos/configuration.nix`: Main shared NixOS config (symlinked from this directory)
 - `/etc/nixos/machine-config.nix`: Platform-specific config (symlinked)
-- Platform directories: `laptop/`, `desktop/`, `endofunctor/`
+- Platform directories: `laptop/`, `homoiconicity/`, `endofunctor/`
 - **Important**: NixOS configuration files are symlinked from this directory to `/etc/nixos/`, so edits here update the system configuration directly
 
 ## Code Style Guidelines

@@ -1,11 +1,11 @@
 set -e
 
-platform=$1
-
 if [ -z "$1" ]
 then
-    echo "Specify a platform, either desktop or laptop"
-    exit 1;
+    platform=$(hostname)
+    echo "No platform specified, using hostname: $platform"
+else
+    platform=$1
 fi
 
 function timestamp() {
@@ -37,7 +37,11 @@ function link_file() {
         echo "ALREADY LINKED: $filepath (skipping)"
         return
     fi
-    if [ -e "$filepath" ]
+    if [ -L "$filepath" ]
+    then
+        echo "Unlinking existing symlink: $filepath"
+        sudo unlink "$filepath"
+    elif [ -e "$filepath" ]
     then
         newfilepath="$filepath.$(timestamp).backup"
         echo "Moving existing file to $newfilepath"
