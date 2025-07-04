@@ -5,6 +5,7 @@
 - Link files to system: `./link-files.sh <platform>` (platform = laptop|desktop|endofunctor)
 - Git shorthand: `gs` for git status
 - **Important Note**: Don't actually try to run sudo nixos-rebuild switch. Always prompt the user to do this (and any other sudo commands) themselves.
+- When running a sudo command, always use -A to invoke the GUI askpass
 
 ## Project Structure
 - `/etc/nixos/configuration.nix`: Main shared NixOS config (symlinked from this directory)

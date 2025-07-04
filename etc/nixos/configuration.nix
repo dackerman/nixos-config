@@ -124,6 +124,7 @@
     unzip
     protontricks              # for running windows games through steam
     keychain                  # for managing SSH keys https://wiki.archlinux.org/title/SSH_keys#SSH_agents
+    x11_ssh_askpass           # GUI password prompt for sudo
     htop
     btop
     lightlocker

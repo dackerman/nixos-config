@@ -1,0 +1,1 @@
+/home/david/code/nixos-config/endofunctor//home/david/.config/fish/config.fish
