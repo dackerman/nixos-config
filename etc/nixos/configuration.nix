@@ -178,6 +178,7 @@
     dbeaver-bin                 # SQL client
     zoom-us
     (ollama.override { acceleration = "cuda"; })
+    mmctl
   ];
 
   services.tailscale.enable = true;

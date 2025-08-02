@@ -17,6 +17,7 @@ set -gx OPENAI_API_KEY (cat /home/david/openai-api-key.txt)
 set -gx CLAUDE_API_KEY (cat /home/david/claude-api-key.txt)
 set -gx ANTHROPIC_API_KEY "$CLAUDE_API_KEY"
 set -gx GEMINI_API_KEY (cat /home/david/gemini-api-key.txt)
+set -gx SUDO_ASKPASS (nix-instantiate --eval -E '(import <nixpkgs> {}).x11_ssh_askpass.outPath' | tr -d '"')/libexec/x11-ssh-askpass
 
 fish_add_path /home/david/.npm-store/bin
 fish_add_path /home/david/.local/bin
