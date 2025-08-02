@@ -1,11 +1,11 @@
 decorations all
-transparent true
+transparent false
 dockapp_mode none
 geometry 10x1-2050+0
 max_geometry 10x1-2050+0
-background "#333333"
+background "#e0e0e0"
 tint_color "#ffff00"
-tint_level 20
+tint_level 0
 kludges force_icons_size
 grow_gravity W
 icon_gravity E

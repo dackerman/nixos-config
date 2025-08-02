@@ -26,6 +26,6 @@ fish_add_path /home/david/bin
 abbr gs 'git status'
 
 # Auto-start tmux (skip for SSH sessions)
-if not set -q SSH_CLIENT; and not set -q SSH_TTY
-    ~/bin/auto-tmux
-end
+# if not set -q SSH_CLIENT; and not set -q SSH_TTY
+#     ~/bin/auto-tmux
+# end

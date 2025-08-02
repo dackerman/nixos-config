@@ -2,8 +2,8 @@
 # VERSION: 3.0
 SETUVAR --export GEMINI_API_KEY:AIzaSyANUzQ_YEfZTCMrZQ7jLVI4kCCG57rc\x2dWE
 SETUVAR --export GOOGLE_DRIVE_OAUTH_CREDENTIALS:/home/david/code/ai\x2ddocument\x2dorganizer/client_secret_311589563045\x2dm32nn7ul4gbc9rt0tdmbrkur3rkk1cuj\x2eapps\x2egoogleusercontent\x2ecom\x2ejson
-SETUVAR --export SSH_AGENT_PID:2904
-SETUVAR --export SSH_AUTH_SOCK:/tmp/ssh\x2dXXXXXX14TZtb/agent\x2e2899
+SETUVAR --export SSH_AGENT_PID:2966
+SETUVAR --export SSH_AUTH_SOCK:/tmp/ssh\x2dXXXXXXj5NmCo/agent\x2e2965
 SETUVAR __fish_initialized:3800
 SETUVAR fish_color_autosuggestion:brblack
 SETUVAR fish_color_cancel:\x2dr
