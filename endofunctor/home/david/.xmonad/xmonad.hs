@@ -5,6 +5,8 @@ import Data.Monoid (mconcat, (<>))
 import Data.List (tail)
 
 import SharedConfig
+import XMonad.Hooks.EwmhDesktops (ewmh)
+import XMonad.Hooks.ManageDocks (docks)
 
 myModMask = windowsKey
 
