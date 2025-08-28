@@ -23,7 +23,6 @@ import XMonad.StackSet (allWindows, currentTag, StackSet, Stack(Stack), member, 
                         delete', view, insertUp)
 import XMonad.Hooks.SetWMName (setWMName)
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobar, xmobarPP, xmobarColor, shorten, ppOutput, ppTitle)
-import XMonad.Hooks.EwmhDesktops (ewmh, ewmhDesktopsLogHook)
 import XMonad.Hooks.ManageDocks (manageDocks, avoidStruts, docks, ToggleStruts(ToggleStruts))
 import XMonad.Actions.SpawnOn (manageSpawn, spawnOn)
 import XMonad.Layout.Spiral (spiral)
@@ -127,7 +126,7 @@ sharedLayouts = layoutHook def ||| ThreeColMid 1 (3/100) (1/2) ||| Grid ||| spir
 sharedConfig xmobarProcess = docks $ def
     { manageHook = manageSpawn <> floatingWindowsHook
     , layoutHook = avoidStruts sharedLayouts
-    , logHook = ewmhDesktopsLogHook <> dynamicLogWithPP xmobarPP
+    , logHook = dynamicLogWithPP xmobarPP
                     { ppOutput = hPutStrLn xmobarProcess
                     , ppTitle = xmobarColor "green" "" . shorten 200
                     }
