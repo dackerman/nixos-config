@@ -1,0 +1,12 @@
+[Unit]
+Description=Stalonetray system tray
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/run/current-system/sw/bin/stalonetray -c %h/.stalonetrayrc
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target
