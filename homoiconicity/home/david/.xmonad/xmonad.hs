@@ -25,7 +25,7 @@ main = do
 
   let startupPrograms = [(signalApp, healthWorkspace)]
 
-  xmonad $ (
+  xmonad . ewmh . docks $ (
     baseConfig { workspaces = [codeWorkspace, termWorkspace, webWorkspace, "4", healthWorkspace, entertainmentWorkspace, musicWorkspace, "8", "9"]
                , manageHook = manageHook baseConfig
                , startupHook = startupProgramsHook startupPrograms <> startupHook baseConfig

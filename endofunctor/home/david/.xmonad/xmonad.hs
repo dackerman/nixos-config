@@ -33,7 +33,7 @@ main = do
 
   let startupPrograms = [(signalApp, workspace 5)]
 
-  xmonad $ (
+  xmonad . ewmh . docks $ (
     baseConfig
       { workspaces = workspaces
       , manageHook = manageHook baseConfig
